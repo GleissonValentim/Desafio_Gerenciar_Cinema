@@ -5,9 +5,16 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
-                    </a>
+                    @auth
+                       <a href="{{ route('dashboard') }}">
+                            <x-application-mark class="block h-9 w-auto" />
+                        </a>
+                    @endauth
+                    @guest
+                        <a href="\">
+                            <x-application-mark class="block h-9 w-auto" />
+                        </a>
+                    @endguest
                 </div>
 
                 <!-- Navigation Links -->
@@ -15,6 +22,20 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @can('is-admin')
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Salas') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('filmes') }}" :active="request()->routeIs('filmes')">
+                        {{ __('Filmes') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Sessões') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Reservas') }}
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -219,7 +240,7 @@
     </div>
     @endauth
     @guest
-    <ul class="navbar-nav">
+    <ul class="buttons">
         <!-- <li class="nav-item">
             <a href="/" class="nav-link">Filmes</a>
         </li>
@@ -229,8 +250,8 @@
         <li class="nav-item">
             <a href="/events/create" class="nav-link">Sessões</a>
         </li> -->
-        <button>Cadastrar</button>
-        <button>Registrar</button>
+        <button class="login"><a href="\login">Entrar</a></button>
+        <button class="register"><a href="\register">Cadastrar</a></button>
     </ul>
     @endguest
 </nav>

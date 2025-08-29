@@ -64,4 +64,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdm(): bool
+    {
+        // Verificar se o usuario esta no arquivo de config para saber se o mesmo é um adm
+        return in_array($this->email, config('custom.admins'));
+    }
 }

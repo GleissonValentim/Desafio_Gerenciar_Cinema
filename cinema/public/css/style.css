@@ -1,0 +1,64 @@
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.buttons button {
+    margin-left: 20px;
+    color: rgb(134, 134, 134);
+}
+
+.register {
+    border: 1px solid rgb(224, 224, 224);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.titulo {
+    font-size: 24px;
+    font-size: bold;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: rgb(73, 73, 230);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
+}
+
+.button_cadastrar {
+    background-color: rgb(73, 73, 230);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+.button_cadastrar:hover {
+    background-color: rgb(96, 96, 212);
+}
+
+thead {
+    background-color: rgb(100, 100, 100);
+    color: white;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+td {
+    border-top: 1px solid rgb(202, 202, 202);
+}
+
+th, td {
+    padding: 20px;
+    text-align: center;
+}
+
+
+
