@@ -11,35 +11,39 @@
   Cadastrar Filme
 </button>
 
-<table>
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Gênero</th>
-            <th scope="col">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($movies as $movie)
-            <tr>
-                <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $movie->titulo }}</td>
-                <td>{{ $movie->descricao }}</td>
-                <td>{{ $movie->genero }}</td>
-                <td class="edicao">
-                    <a href="" class="btn btn-info edit-btn"><ion-icon name="create-outline"></ion-icon> Editar</a>
-                    <form action="" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger delete-btn"><ion-icon name="trash-outline"></ion-icon> Deletar</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+@if(count($movies) == 0)
+    <p class="text-center">Não há filmes cadastrados</p>
+@else
+    <div class="tabela">
+        <table class="mt-10">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Gênero</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($movies as $movie)
+                    <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td class="link_filme"><a href="/ingressos/reservar_ingresso/{{ $movie->id }}">{{ $movie->titulo }}</a></td>
+                        <td>{{ $movie->genero }}</td>
+                        <td class="edicao">
+                            <a href=""><ion-icon class="editar" name="create-outline"></ion-icon></a>
+                            <form action="{{ route('filmes.destroy', $movie->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit"><ion-icon class="delete" name="trash-outline"></ion-icon></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
 
 <!-- Main modal -->
 <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
