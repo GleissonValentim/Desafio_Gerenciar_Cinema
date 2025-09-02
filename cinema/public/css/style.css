@@ -20,6 +20,13 @@
     margin-top: 20px;
 }
 
+.titulo_filme {
+    font-size: 36px;
+    font-size: bold;
+    margin-top: 20px;
+    color: #f2a340;
+}
+
 .button {
     background-color: #f2a340;
     border: 2px solid #c28008;
@@ -93,15 +100,18 @@ th, td {
 .editar {
     color: rgb(2, 154, 255);
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .delete {
     color: red;
+    cursor: pointer;
 }
 
 .movies {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     width: 100%;
     margin-bottom: 150px;
 }
@@ -114,10 +124,6 @@ th, td {
 
 .description p {
     margin-top: 20px;
-}
-
-.movie {
-    margin: 0 20px;
 }
 
 .movie button {
@@ -141,7 +147,7 @@ th, td {
 }
 
 .img {
-    width: 350px;
+    width: 264px;
     height: 250px;
     margin-top: 50px;
     border-radius: 10px 10px 0 0;

@@ -1,17 +1,22 @@
 <?php
 
-use App\Http\Controllers\AdmController;
 use App\Http\Controllers\IngressoController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SalaController;
+use App\Http\Controllers\SessaoController;
 use App\Http\Middleware\CheckIfIsAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/adm/salas', [AdmController::class, 'addSalas'])->middleware(CheckIfIsAdmin::class);
-Route::get('/adm/salas', [AdmController::class, 'getSalas'])->name('salas')->middleware(CheckIfIsAdmin::class);
+Route::post('/adm/sessoes', [SessaoController::class, 'addSessao'])->middleware(CheckIfIsAdmin::class);
+Route::get('/adm/sessoes', [SessaoController::class, 'getSessoes'])->name('sessoes')->middleware(CheckIfIsAdmin::class);
+Route::post('/adm/salas', [SalaController::class, 'addSalas'])->middleware(CheckIfIsAdmin::class);
+Route::get('/adm/salas', [SalaController::class, 'getSalas'])->name('salas')->middleware(CheckIfIsAdmin::class);
 Route::get('/ingressos/reservar_ingresso/{movie}', [IngressoController::class, 'reservar']);
-Route::delete('/adm/filmes/{user}/destroy', [AdmController::class, 'destroy'])->name('filmes.destroy')->middleware(CheckIfIsAdmin::class);
-Route::post('/adm/filmes', [AdmController::class, 'addFilme'])->middleware(CheckIfIsAdmin::class);
-Route::get('/adm/filmes', [AdmController::class, 'getFilmes'])->name('filmes')->middleware(CheckIfIsAdmin::class);
-Route::get('/', [AdmController::class, 'home'])->name('home');
+Route::put('/adm/filmes/{id}', [MovieController::class, 'update'])->middleware(CheckIfIsAdmin::class);
+Route::delete('/adm/filmes/{user}/destroy', [MovieController::class, 'destroy'])->name('filmes.destroy')->middleware(CheckIfIsAdmin::class);
+Route::post('/adm/filmes', [MovieController::class, 'addFilme'])->middleware(CheckIfIsAdmin::class);
+Route::get('/adm/filmes', [MovieController::class, 'getFilmes'])->name('filmes')->middleware(CheckIfIsAdmin::class);
+Route::get('/', [MovieController::class, 'home'])->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -22,5 +27,5 @@ Route::middleware([
     //     return view('dashboard');
     // })->name('dashboard');
 
-    Route::get('/dashboard', [AdmController::class, 'dashboard'])->name('dashboard');;
+    Route::get('/dashboard', [MovieController::class, 'dashboard'])->name('dashboard');;
 });

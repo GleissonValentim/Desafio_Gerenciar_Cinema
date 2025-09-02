@@ -30,7 +30,7 @@
                     <x-nav-link href="{{ route('filmes') }}" :active="request()->routeIs('filmes')">
                         {{ __('Filmes') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('sessoes') }}" :active="request()->routeIs('sessoes')">
                         {{ __('Sessões') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
