@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('title', 'HDC Events')
 
@@ -35,6 +35,7 @@
                         <td>
                             <span><ion-icon class="editar" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_sessao" id="{{ $sessao->id }}" name="trash-outline"></ion-icon></span>
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
                         </td>
                     </tr>
                 @endforeach
@@ -70,7 +71,7 @@
                     </div>
                     <div>
                         <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
-                        <select name="filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <select name="filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                             <option value="">Selecione um Filme</option>
                             @foreach($filmes as $filme)
                                 <option value="{{ $filme->id }}">{{ $filme->titulo }}</option>
@@ -79,7 +80,7 @@
                     </div>
                     <div>
                         <label for="sala" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sala</label>
-                        <select name="sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <select name="sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                             <option value="">Selecione uma Sala</option>
                             @foreach($salas as $sala)
                             <option value="{{ $sala->id }}">{{ $sala->nome }}</option>

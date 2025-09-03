@@ -16,8 +16,10 @@
 
         <!-- Styles -->
         @livewireStyles
+        <link rel="stylesheet" href="/css/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
@@ -34,7 +36,9 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    @yield('content')
+                </div>
             </main>
         </div>
 
@@ -43,3 +47,13 @@
         @livewireScripts
     </body>
 </html>
+
+<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> 
+<script src="/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="/js/vendor/script.js"></script>
+<script src="/js/vendor/sweetalert.js"></script>
+

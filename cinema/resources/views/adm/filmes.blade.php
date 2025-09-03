@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('title', 'HDC Events')
 
@@ -31,8 +31,9 @@
                         <td class="link_filme"><a href="/ingressos/reservar_ingresso/{{ $movie->id }}">{{ $movie->titulo }}</a></td>
                         <td>{{ $movie->genero }}</td>
                         <td>
-                            <span><ion-icon class="editar" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
+                            <span><ion-icon class="editar atualizar_filme" id="{{ $movie->id }}" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_filme" id="{{ $movie->id }}" name="trash-outline"></ion-icon></span>
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
                         </td>
                     </tr>
                 @endforeach
@@ -75,13 +76,28 @@
                         <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
+                        <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+                        <input type="date" name="data" id="descricao" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                    </div>
+                    <div>
                         <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>
-                        <select name="genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <select name="genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                             <option value="">Selecione um gênero</option>
                             <option value="aventura">Aventura</option>
                             <option value="acao">Ação</option>
                             <option value="romance">Romance</option>
                             <option value="terror">Terror</option>
+                            <option value="terror">Comédia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="classificacao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Classificação</label>
+                        <select name="classificacao" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                            <option value="">Selecione uma Classificação de idade</option>
+                            <option value="0">Livre</option>
+                            <option value="12">12</option>
+                            <option value="16">16</option>
+                            <option value="18">18</option>
                         </select>
                     </div>
                     <div class="flex justify-end">

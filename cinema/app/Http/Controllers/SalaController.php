@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\_sessions;
 use Illuminate\Http\Request;
 use App\Models\Room;
 
@@ -46,13 +47,29 @@ class SalaController extends Controller
 
     public function destroy(string $id){
 
+        $sessao = _sessions::where([
+            ['rooms_id', '=', $id]
+        ])->get();
+        
         $sala = Room::find($id);
 
-        $sala->delete($id);
-        
-        $menssagem = ["menssagem" => "Por favor preencha todos os campos!", "erro" => true];
-
-        header('Content-Type: aplication/json');
-        echo json_encode($menssagem);
+        if(count($sessao) > 0){
+            return response()->json([
+                'mensagem' => 'Essa sala está vinculada há uma sessão. Por favor tente novamente.',
+                'erro' => true
+            ]);
+        } else {
+            if($sala->delete()){
+                return response()->json([
+                    'mensagem' => 'Sala removido com sucesso!',
+                    'erro' => false
+                ]);
+            } else {
+                return response()->json([
+                    'mensagem' => 'Erro ao remover o sala!',
+                    'erro' => true
+                ]);
+            }
+        }
     }
 }

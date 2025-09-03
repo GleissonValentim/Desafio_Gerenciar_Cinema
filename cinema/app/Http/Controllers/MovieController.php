@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\_sessions;
 use App\Models\Movie;
+use DateTime;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -35,6 +37,8 @@ class MovieController extends Controller
         $movie->titulo = $request->titulo;
         $movie->descricao = $request->descricao;
         $movie->genero = $request->genero;
+        $movie->classificacao = $request->classificacao;
+        $movie->data = $request->data;
 
         // Image Upload
         if($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -76,27 +80,38 @@ class MovieController extends Controller
 
     public function update(Request $request){
 
-        $id = $_POST['del'];
-        dd($id);
-        // $movie = Movie::find($id);
-
-        // $movie->delete();
+      
         return response()->json([
             'mensagem' => 'Filme removido com sucesso!',
             'erro' => false
         ]);
     }
 
-    public function destroy(Request $request){
+    public function destroy($id){
 
-        $id = $_POST['del'];
-        dd($id);
-        // $movie = Movie::find($id);
+        $sessao = _sessions::where([
+            ['movies_id', '=', $id]
+        ])->get();
+        
+        $movie = Movie::find($id);
 
-        // $movie->delete();
-        return response()->json([
-            'mensagem' => 'Filme removido com sucesso!',
-            'erro' => false
-        ]);
+        if(count($sessao) > 0){
+            return response()->json([
+                'mensagem' => 'Esse filme está vinculado há uma sessão. Por favor tente novamente.',
+                'erro' => true
+            ]);
+        } else {
+            if($movie->delete()){
+                return response()->json([
+                    'mensagem' => 'Filme removido com sucesso!',
+                    'erro' => false
+                ]);
+            } else {
+                return response()->json([
+                    'mensagem' => 'Erro ao remover o filme!',
+                    'erro' => true
+                ]);
+            }
+        }
     }
 }

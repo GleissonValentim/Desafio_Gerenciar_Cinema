@@ -58,4 +58,21 @@ class SessaoController extends Controller
             }
         }
     }
+
+    public function destroy(string $id){
+
+        $sessao = _sessions::find($id);
+
+        if($sessao->delete()){
+            return response()->json([
+                'mensagem' => 'Sessão removida com sucesso!',
+                'erro' => false
+            ]);
+        } else {
+            return response()->json([
+                'mensagem' => 'Erro ao remover a sessão!',
+                'erro' => true
+            ]);
+        }
+    }
 }

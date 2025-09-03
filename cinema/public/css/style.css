@@ -85,6 +85,7 @@ th, td {
 
 .link_filme {
     color: #f2a340;
+    text-decoration: underline
 }
 
 .link_filme:hover {
@@ -116,17 +117,21 @@ th, td {
     margin-bottom: 150px;
 }
 
-.description {
-    padding: 20px;
+.movie {
+    cursor: pointer;
+}
+
+/* .description {
+    padding: 12px;
     border-radius: 0 0 10px 10px;
     border: 1px solid rgb(201, 201, 201);
 }
 
 .description p {
     margin-top: 20px;
-}
+} */
 
-.movie button {
+/* .movie button {
     background-color: #f2a340;
     border: 2px solid #c28008;
     padding: 7px;
@@ -134,29 +139,88 @@ th, td {
     font-size: bold;
     border-radius: 5px;
     margin-top: 5px;
-}
+} */
 
-.movie button:hover {
+/* .movie button:hover {
     background-color: #c28008;
     border-color: #c28008;
+} */
+
+/* .description h1 {
+    font-size: 20px;
+    font-weight: bold;
+} */
+
+.img {
+    width: 300px;
+    height: 400px;
+    margin-top: 50px;
+    border-radius: 10px;
 }
 
-.description h1 {
-    font-size: 20px;
+.titulo_filme {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.titulo_filme_ingresso {
+    font-size: 30px;
     font-weight: bold;
 }
 
-.img {
-    width: 264px;
-    height: 250px;
-    margin-top: 50px;
-    border-radius: 10px 10px 0 0;
+.titulo_filme:hover {
+    color: #f2a340;
+    text-decoration: underline
 }
 
 .info-image {
     margin: 10px 0;
     max-width: 550px;
     max-height: 550px;
+}
+
+.classificao {
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.livre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.descricao {
+    margin-top: 20px;
+}
+
+.info-ingresso {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-ingresso {
+    margin: auto 0;
+    width: 450px;
+}
+
+.assentos {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid black;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.assentos:hover {
+    background-color: #ebebeb;
 }
 
 footer {

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
 {
+    
+    protected $dates = ['date'];
+
     // Pertence a muitas sessoes
     public function sessoes() {
         return $this->belongsToMany('App\Models\Sessions');

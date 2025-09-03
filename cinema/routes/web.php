@@ -7,13 +7,16 @@ use App\Http\Controllers\SessaoController;
 use App\Http\Middleware\CheckIfIsAdmin;
 use Illuminate\Support\Facades\Route;
 
+Route::delete('/adm/sessoes/{id}/destroy', [SessaoController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/sessoes', [SessaoController::class, 'addSessao'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/sessoes', [SessaoController::class, 'getSessoes'])->name('sessoes')->middleware(CheckIfIsAdmin::class);
+Route::delete('/adm/salas/{id}/destroy', [SalaController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/salas', [SalaController::class, 'addSalas'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/salas', [SalaController::class, 'getSalas'])->name('salas')->middleware(CheckIfIsAdmin::class);
 Route::get('/ingressos/reservar_ingresso/{movie}', [IngressoController::class, 'reservar']);
+Route::post('/adm/filmes', [MovieController::class, 'update'])->middleware(CheckIfIsAdmin::class);
 Route::put('/adm/filmes/{id}', [MovieController::class, 'update'])->middleware(CheckIfIsAdmin::class);
-Route::delete('/adm/filmes/{user}/destroy', [MovieController::class, 'destroy'])->name('filmes.destroy')->middleware(CheckIfIsAdmin::class);
+Route::delete('/adm/filmes/{id}/destroy', [MovieController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/filmes', [MovieController::class, 'addFilme'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/filmes', [MovieController::class, 'getFilmes'])->name('filmes')->middleware(CheckIfIsAdmin::class);
 Route::get('/', [MovieController::class, 'home'])->name('home');
