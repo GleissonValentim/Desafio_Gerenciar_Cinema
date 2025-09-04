@@ -7,13 +7,13 @@
     <div class="info-ingresso mt-10">
         <div>
             <h1 class="titulo_filme_ingresso">{{ $movie->titulo }}</h1>
-            @if($movie->classficacao >= 18)
+            @if($movie->classificacao >= 18)
                 <span class="classificao bg-red-600">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
-            @elseif($movie->classficacao >= 16)
-                <span class="classificao bg-orange-600">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
-            @elseif($movie->classficacao >= 12)
-                <span class="classificao bg-yellow-600">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
-            @elseif($movie->classficacao == 0)
+            @elseif($movie->classificacao >= 16)
+                <span class="classificao especial">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
+            @elseif($movie->classificacao >= 12)
+                <span class="classificao bg-yellow-500">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
+            @elseif($movie->classificacao == 0)
                 <span class="classificao livre bg-green-600 pb-4 ">L</span><span class="genero">{{ $movie->genero }}</span>
             @endif
             <img class="info-image mt-5" src="/img/movies/{{ $movie->image }}" alt="{{ $movie->title }}">

@@ -3,15 +3,29 @@
     align-items: center;
 }
 
-.buttons button {
-    margin-left: 20px;
+.login {
+    margin-right: 10px;
     color: rgb(134, 134, 134);
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 5px;
+    padding: 11px;
+}
+
+.login:hover {
+    background-color: rgb(247, 247, 247);
 }
 
 .register {
-    border: 1px solid rgb(224, 224, 224);
     padding: 10px;
     border-radius: 5px;
+    background-color: #fcbc6f;
+    border: 2px solid #c28008;
+    color: white;
+}
+
+.register:hover {
+    background-color: #c28008;
+    border-color: #c28008;
 }
 
 .titulo {
@@ -190,6 +204,26 @@ th, td {
     color: white;
     font-weight: bold;
     margin-right: 10px;
+}
+
+.especial {
+    background-color: #ff8c00;
+}
+
+.logo {
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+}
+
+.logo-header {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.registrar {
+    margin-top: 80px;
 }
 
 .livre {

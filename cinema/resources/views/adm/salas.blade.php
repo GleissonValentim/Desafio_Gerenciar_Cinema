@@ -31,7 +31,7 @@
                         <td>{{ $sala->nome }}</td>
                         <td>{{ $sala->capacidade }}</td>
                         <td>
-                            <span><ion-icon class="editar" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
+                            <span><ion-icon class="editar atualizar_sala" id="{{ $sala->id }}" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_sala" id="{{ $sala->id }}" name="trash-outline"></ion-icon></span>
                             <meta name="csrf-token" content="{{ csrf_token() }}">
                         </td>
@@ -99,29 +99,15 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="cadastrar_filme">
+                <form class="space-y-4" action="/adm/salas" method="POST" enctype="multipart/form-data" id="cadastrar_sala">
                     @csrf
                     <div>
-                        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagem</label>
-                        <input type="file" id="image" name="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required>
+                        <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+                        <input type="text" name="nome" id="edit_nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o nome da sala" required />
                     </div>
                     <div>
-                        <label for="titulo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-                        <input type="text" name="titulo" id="titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required />
-                    </div>
-                    <div>
-                        <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrição</label>
-                        <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
-                    </div>
-                    <div>
-                        <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>
-                        <select name="genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                            <option value="">Selecione um gênero</option>
-                            <option value="aventura">Aventura</option>
-                            <option value="acao">Ação</option>
-                            <option value="romance">Romance</option>
-                            <option value="terror">Terror</option>
-                        </select>
+                        <label for="capacidade" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacidade</label>
+                        <input type="number" name="capacidade" id="edit_capacidade" placeholder="Digite a capacidade total da Sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div class="flex justify-end">
                         <button class="button_cadastrar">Cadastrar</button>

@@ -21,6 +21,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Filme</th>
                     <th scope="col">Horario</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Preço</th>
                     <th scope="col">Sala</th>
                     <th scope="col">Ações</th>
                 </tr>
@@ -31,9 +33,11 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $sessao->movies_id }}</td>
                         <td>{{ $sessao->horario }}</td>
+                        <td>{{ DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y') }}</td>
+                        <td>R$ {{ $sessao->preco }},00</td>
                         <td>{{ $sessao->rooms_id }}</td>
                         <td>
-                            <span><ion-icon class="editar" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
+                            <span><ion-icon class="editar atualizar_sessao" id="{{ $sessao->id }}" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_sessao" id="{{ $sessao->id }}" name="trash-outline"></ion-icon></span>
                             <meta name="csrf-token" content="{{ csrf_token() }}">
                         </td>
@@ -67,7 +71,15 @@
                     @csrf
                     <div>
                         <label for="horario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">horario</label>
-                        <input type="time" name="horario" id="horario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required />
+                        <input type="time" name="horario" id="horario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                    </div>
+                    <div>
+                        <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+                        <input type="date" name="data" id="data" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" required />
+                    </div>
+                    <div>
+                        <label for="preco" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço</label>
+                        <input type="number" name="preco" id="titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" required />
                     </div>
                     <div>
                         <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
@@ -104,7 +116,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Cadastrar filme
+                    Editar Sessão
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -115,28 +127,36 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="cadastrar_filme">
+                <form class="space-y-4" action="/adm/sessoes" method="POST" enctype="multipart/form-data" id="cadastrar_sessao">
                     @csrf
                     <div>
-                        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagem</label>
-                        <input type="file" id="image" name="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required>
+                        <label for="horario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">horario</label>
+                        <input type="time" name="horario" id="edit_horario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
-                        <label for="titulo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-                        <input type="text" name="titulo" id="titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required />
+                        <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+                        <input type="date" name="data" id="edit_sessao_data" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" required />
                     </div>
                     <div>
-                        <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrição</label>
-                        <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="preco" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço</label>
+                        <input type="number" name="preco" id="edit_preco" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" required />
                     </div>
                     <div>
-                        <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>
-                        <select name="genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                            <option value="">Selecione um gênero</option>
-                            <option value="aventura">Aventura</option>
-                            <option value="acao">Ação</option>
-                            <option value="romance">Romance</option>
-                            <option value="terror">Terror</option>
+                        <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
+                        <select name="filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_movie" required>
+                            <option value="">Selecione um Filme</option>
+                            @foreach($filmes as $filme)
+                                <option value="{{ $filme->id }}">{{ $filme->titulo }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sala" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sala</label>
+                        <select name="sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_sala_id" required>
+                            <option value="">Selecione uma Sala</option>
+                            @foreach($salas as $sala)
+                            <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="flex justify-end">

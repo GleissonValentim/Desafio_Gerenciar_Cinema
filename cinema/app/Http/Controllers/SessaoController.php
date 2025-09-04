@@ -15,12 +15,9 @@ class SessaoController extends Controller
         $filmes = Movie::all();
         $salas = Room::all();
 
-        $sala = [];
-        foreach($filmes as $filme){
-            $sala[$filme->id] = Movie::find($filme->id);
-        }
+        // $eu = _sessions::with('sala')->get();
 
-        return view('adm.sessoes', ['sessoes' => $sessoes, 'filmes' => $filmes, 'salas' => $salas, 'salass' => $sala]);
+        return view('adm.sessoes', ['sessoes' => $sessoes, 'filmes' => $filmes, 'salas' => $salas]);
     }
 
     public function addSessao(Request $request) {
@@ -30,33 +27,52 @@ class SessaoController extends Controller
         $sessao->horario = $request->horario;
         $sessao->movies_id = $request->filme;
         $sessao->rooms_id = $request->sala;
+        $sessao->preco = $request->preco;
+        $sessao->data = $request->data;
 
-        $horarioIgual = _sessions::where([
+        $sessaoIgual = _sessions::where([
             ['horario', '=', $sessao->horario]
-        ])->get();
+        ])->where([['rooms_id', '=', $sessao->rooms_id]])
+          ->where([['data', '=', $sessao->data]])->get();
 
-        $salaIgual = _sessions::where([
-            ['rooms_id', '=', $sessao->rooms_id]
-        ])->get();
+        $movieData = Movie::where([
+            ['id', '=', $sessao->movies_id]
+        ])->where([['data', '>', $sessao->data]])->get();
 
-        if(count($horarioIgual) > 0 && count($salaIgual) > 0){
+        if(count($movieData) > 0){
             return response()->json([
-                'mensagem' => 'Voçê não pode cadastrar uma sessão no mesmo hórario e na mesma sala ao mesmo tempo',
+                'mensagem' => 'Você não pode cadastrar uma data anterior a data de exibição do filme',
                 'erro' => true
             ]);
         } else {
-            if($sessao->save()){
+            if(count($sessaoIgual) > 0){
                 return response()->json([
-                    'mensagem' => 'Sessão cadastrada com sucesso!',
-                    'erro' => false
-                ]);
-            } else {
-                return response()->json([
-                    'mensagem' => 'Erro ao cadastrar a sessão. Por favor tente novamente.',
+                    'mensagem' => 'Você não pode cadastrar mais de uma sessão na memsa data, horário e sala ao mesmo tempo',
                     'erro' => true
                 ]);
+            } else {
+                if($sessao->save()){
+                    return response()->json([
+                        'mensagem' => 'Sessão cadastrada com sucesso!',
+                        'erro' => false
+                    ]);
+                } else {
+                    return response()->json([
+                        'mensagem' => 'Erro ao cadastrar a sessão. Por favor tente novamente.',
+                        'erro' => true
+                    ]);
+                }
             }
         }
+    }
+
+    public function edit($id){
+
+        $sessoes = _sessions::find($id);
+
+        return response()->json([
+            $sessoes
+        ]);
     }
 
     public function destroy(string $id){

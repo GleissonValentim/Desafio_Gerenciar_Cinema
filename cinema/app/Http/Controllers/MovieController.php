@@ -78,11 +78,37 @@ class MovieController extends Controller
         }
     }
 
-    public function update(Request $request){
+    public function edit($id){
 
-      
+        $movie = Movie::find($id);
+
         return response()->json([
-            'mensagem' => 'Filme removido com sucesso!',
+            $movie
+        ]);
+    }
+
+    public function update(Request $request) {
+
+        $data = $request->all();
+
+        // Image Upload
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+
+            $requestImage = $request->image;
+
+            $extension = $requestImage->extension();
+
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+            $requestImage->move(public_path('img/events'), $imageName);
+
+            $data['image'] = $imageName;
+        }
+
+        $movie = Movie::findOrFail($request->id)->update($data);
+
+        return response()->json([
+            'mensagem' => 'Filme editado com sucesso!',
             'erro' => false
         ]);
     }

@@ -45,6 +45,15 @@ class SalaController extends Controller
         }
     }
 
+    public function edit($id){
+
+        $salas = Room::find($id);
+
+        return response()->json([
+            $salas
+        ]);
+    }
+
     public function destroy(string $id){
 
         $sessao = _sessions::where([
