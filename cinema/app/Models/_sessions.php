@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class _sessions extends Model
 {
+
+    // Permite que eu possa atualizar tudo
+    protected $guarded = [];
+    
     // Pertence a um filme
     public function movie() {
         return $this->belongsTo('App\Models\Movie');

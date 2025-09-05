@@ -54,6 +54,25 @@ class SalaController extends Controller
         ]);
     }
 
+    public function update(Request $request) {
+
+        $data = $request->all();
+
+        $sala = Room::findOrFail($request->id)->update($data);
+
+        if($sala){
+            return response()->json([
+                'mensagem' => 'Sala editada com sucesso!',
+                'erro' => false
+            ]);
+        } else {
+            return response()->json([
+                'mensagem' => 'Erro ao editar a sala.',
+                'erro' => false
+            ]);
+        }
+    }
+
     public function destroy(string $id){
 
         $sessao = _sessions::where([
@@ -80,5 +99,14 @@ class SalaController extends Controller
                 ]);
             }
         }
+    }
+
+    public function lugares(int $sala){
+
+        $room = Room::find($sala);
+
+        return response()->json([
+            $room->capacidade
+        ]);
     }
 }

@@ -107,10 +107,17 @@ class MovieController extends Controller
 
         $movie = Movie::findOrFail($request->id)->update($data);
 
-        return response()->json([
-            'mensagem' => 'Filme editado com sucesso!',
-            'erro' => false
-        ]);
+        if($movie){
+            return response()->json([
+                'mensagem' => 'Filme editado com sucesso!',
+                'erro' => false
+            ]);
+        } else {
+            return response()->json([
+                'mensagem' => 'Erro ao editar o filme.',
+                'erro' => false
+            ]);
+        }
     }
 
     public function destroy($id){

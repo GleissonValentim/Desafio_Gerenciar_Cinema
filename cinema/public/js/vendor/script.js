@@ -95,7 +95,7 @@ $(document).ready(function(){
         }).done(function(data){
 
             data.forEach(function(item) {
-                $('#editar_filme').val(item.id);
+                $('#identificador').val(item.id);
                 $('#edit_titulo').val(item.titulo);
                 $('#edit_descricao').val(item.descricao);
                 $('#edit_data').val(item.data);
@@ -109,26 +109,13 @@ $(document).ready(function(){
     $(document).on('submit', '#editar_filme', function(e){
         e.preventDefault();
 
-        var filme = $('#editar_filme').val();
-        var titulo = $('#edit_titulo').val();
-        var descricao = $('#edit_descricao').val();
-        var data = $('#edit_data').val();
-        var genero = $('#edit_genero').val();
-        var classificacao = $('#edit_classificacao').val();
-        let token = $('meta[name="csrf-token"]').attr('content');
-
         $.ajax({
-            url: '/adm/filmes/' + filme + '/update',
+            url: '/adm/filmes/update',
             method: 'POST',
-            data: {
-                filme: filme,
-                titulo: titulo,
-                descricao: descricao,
-                data: data,
-                genero: genero,
-                classificacao: classificacao,
-                _token: token
-            }
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
         }).done(function(data){
             if(data.erro == true){
                 Swal.fire({
@@ -177,29 +164,6 @@ $(document).ready(function(){
         })
     });
 
-    // script para atualizar uma sala
-    $(document).on('click', '.atualizar_sala', function(e){
-        e.preventDefault();
-        var edit = $(this).attr("id");
-        let token = $('meta[name="csrf-token"]').attr('content');
-
-        $.ajax({
-            url: '/adm/salas/' + edit + '/edit',
-            type: 'GET',
-            data:{
-                _token: token,
-                edit: edit
-            }
-        }).done(function(data){
-
-            data.forEach(function(item) {
-                $('#editar_sala').val(item.id);
-                $('#edit_nome').val(item.nome);
-                $('#edit_capacidade').val(item.capacidade);
-            });
-        })
-    });
-
     // script para deletar uma sala
     $(document).on('click', '.apagar_sala', function(e){
         e.preventDefault();
@@ -245,6 +209,60 @@ $(document).ready(function(){
                 })
             }
         });
+    });
+
+    // script para atualizar uma sala
+    $(document).on('click', '.atualizar_sala', function(e){
+        e.preventDefault();
+        var edit = $(this).attr("id");
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: '/adm/salas/' + edit + '/edit',
+            type: 'GET',
+            data:{
+                _token: token,
+                edit: edit
+            }
+        }).done(function(data){
+
+            data.forEach(function(item) {
+                $('#identificador_sala').val(item.id);
+                $('#edit_nome').val(item.nome);
+                $('#edit_capacidade').val(item.capacidade);
+            });
+        })
+    });
+
+
+    // script para editar uma sala
+    $(document).on('submit', '#editar_sala', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: '/adm/salas/update',
+            method: 'POST',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+        }).done(function(data){
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+            } else {
+                Swal.fire({
+                    title: data.mensagem,
+                    icon: "success",
+                    draggable: true
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        })
     });
 
     // Cadastrar sessao
@@ -350,4 +368,32 @@ $(document).ready(function(){
             });
         })
     });
+
+    // script para atualizar as salas
+    $(document).on('click', '#reservar_lugar', function(e){
+        e.preventDefault();
+        var sala = $('#reservar_lugar').val();
+        console.log(sala);
+
+        $.ajax({
+            url: '/ingressos/reservar_lugar/' + sala,
+            type: 'GET',
+            data:{
+                sala: sala
+            }
+        }).done(function(data){
+            // console.log(data)
+            // for(i = 0; i <= data; i++){
+            //     var novaDiv = $('<div class="lugar"></div>');
+
+            //     $('.lugares').append(novaDiv);
+            // }
+        })
+    });
 });
+
+// data.forEach(function(item) {
+//                 $('#identificador_sala').val(item.id);
+//                 $('#edit_nome').val(item.nome);
+//                 $('#edit_capacidade').val(item.capacidade);
+//             });

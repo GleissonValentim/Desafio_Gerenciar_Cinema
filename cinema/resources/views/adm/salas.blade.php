@@ -88,7 +88,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Cadastrar Sala
+                    Editar Sala
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -99,8 +99,10 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="/adm/salas" method="POST" enctype="multipart/form-data" id="cadastrar_sala">
+                <form class="space-y-4" method="POST" enctype="multipart/form-data" id="editar_sala">
                     @csrf
+
+                    <input type="hidden" name="id" id="identificador_sala">
                     <div>
                         <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
                         <input type="text" name="nome" id="edit_nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o nome da sala" required />
@@ -110,7 +112,7 @@
                         <input type="number" name="capacidade" id="edit_capacidade" placeholder="Digite a capacidade total da Sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div class="flex justify-end">
-                        <button class="button_cadastrar">Cadastrar</button>
+                        <button class="button_cadastrar">Editar</button>
                     </div>
                 </form>
             </div>

@@ -242,7 +242,7 @@ th, td {
 
 .form-ingresso {
     margin: auto 0;
-    width: 450px;
+    width: 580px;
 }
 
 .assentos {
@@ -255,6 +255,37 @@ th, td {
 
 .assentos:hover {
     background-color: #ebebeb;
+}
+
+.ingresso_button {
+    background-color: #f2a340;
+    border: 2px solid #c28008;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.ingresso_button:hover {
+    background-color: #c28008;
+    border-color: #c28008;
+}
+
+.lugares {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.lugar {
+    padding: 12px;
+    border: 1px solid rgb(168, 168, 168);
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.lugar:hover {
+    background-color: #f2a340;
+    border: 1px solid #c28008;
 }
 
 footer {
