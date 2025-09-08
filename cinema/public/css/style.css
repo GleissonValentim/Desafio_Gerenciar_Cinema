@@ -233,6 +233,7 @@ th, td {
 
 .descricao {
     margin-top: 20px;
+    width: 60%;
 }
 
 .info-ingresso {
@@ -240,8 +241,12 @@ th, td {
     justify-content: space-between;
 }
 
+.filme {
+    width: 60%;
+}
+
 .form-ingresso {
-    margin: auto 0;
+    margin-top: 200px;
     width: 580px;
 }
 
@@ -286,6 +291,41 @@ th, td {
 .lugar:hover {
     background-color: #f2a340;
     border: 1px solid #c28008;
+}
+
+.reservar_lugares {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+    align-items: center;
+}
+
+.reservar_lugares button {
+    background-color: #f2a340;
+    border: 2px solid #c28008;
+    padding: 3px 5px;
+    margin: 20px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.reservar_lugares button:hover {
+    background-color: #c28008;
+    border-color: #c28008;
+}
+
+.reservar_lugares p {
+    margin: 0 18px;
+}
+
+.numero_assentos {
+    display: flex;
+}
+
+.numero_assentos input {
+    width: 25px;
+    height: 25px;
+    border: 1px solid rgb(168, 168, 168);
 }
 
 footer {

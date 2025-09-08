@@ -77,6 +77,8 @@ class SessaoController extends Controller
 
     public function destroy(string $id){
 
+        return redirect('/register');
+
         $sessao = _sessions::find($id);
 
         if($sessao->delete()){

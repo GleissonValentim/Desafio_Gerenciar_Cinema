@@ -70,4 +70,9 @@ class User extends Authenticatable
         // Verificar se o usuario esta no arquivo de config para saber se o mesmo é um adm
         return in_array($this->email, config('custom.admins'));
     }
+
+    // Pertence a muitos ingressos
+    public function sessoes() {
+        return $this->belongsToMany('App\Models\Bookings');
+    }
 }

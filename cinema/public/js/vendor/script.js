@@ -370,10 +370,11 @@ $(document).ready(function(){
     });
 
     // script para atualizar as salas
-    $(document).on('click', '#reservar_lugar', function(e){
+    var sala = null
+    $(document).on('click', '.reservar_lugar', function(e){
         e.preventDefault();
-        var sala = $('#reservar_lugar').val();
-        console.log(sala);
+        sala = $(this).attr("id");
+        $('.lugar').remove()
 
         $.ajax({
             url: '/ingressos/reservar_lugar/' + sala,
@@ -382,18 +383,105 @@ $(document).ready(function(){
                 sala: sala
             }
         }).done(function(data){
-            // console.log(data)
-            // for(i = 0; i <= data; i++){
-            //     var novaDiv = $('<div class="lugar"></div>');
+            cont = 0
+            for(i = 0; i < data; i++){
+                var novaDiv = $('<div class="lugar" id="' + cont  + '"></div>');
+                cont++
 
-            //     $('.lugares').append(novaDiv);
-            // }
+                $('.lugares').append(novaDiv);
+            }
+       
+            // $('#e').val(cont);
         })
+    });
+
+    var assentos = []
+    $(document).on('click', '.lugar', function(e){
+        var assento = $(this).attr("id");
+        var sessao = $('.eu').val();
+        console.log(sessao)
+        assentoIgual = false
+
+        $.ajax({
+            url: '/ingressos/' + assento + '/reservar/' + sala + '/',
+            type: 'GET',
+            data:{
+                assento: assento,
+                sessao: sessao
+            }
+        }).done(function(data){
+            // $('.link').css("background-color", "green");
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+                assento = null
+            } 
+
+            // for(var i = 0; i < assentos.length; i++){
+            //     if(assentos[i] = assento){
+            //         assentoIgual = true
+            //     }
+            // }
+
+            // if(assentoIgual == true){
+            //     Swal.fire({
+            //         title: "Erro",
+            //         text: "Você já selecionou essa assento",
+            //         icon: "error"
+            //     });
+            //     assento = null
+            //     assentoIgual = false
+            // }
+            
+            assentos.push(assento);
+        });
+    });
+
+    $(document).on('click', '#concluir_reserva', function(e){
+        let token = $('meta[name="csrf-token"]').attr('content');
+        var conteudo = null
+        var mensagem = null
+
+        for(var i = 0; i < assentos.length; i++){
+
+            $.ajax({
+                url: '/ingressos/reservar',
+                type: 'POST',
+                data:{
+                    assento: assentos[i],
+                    sala: sala,
+                    _token: token,
+                }
+            }).done(function(data){
+                if(data.erro == false){
+                    conteudo = false
+                    mensagem = data.mensagem
+                } else {
+                    conteudo = true
+                    mensagem = "Ingresso cadastrado com sucesso!"
+                }
+            });
+        }
+
+        if(conteudo == false){
+            Swal.fire({
+                title: "Erro",
+                text: mensagem,
+                icon: "error"
+            });
+        } else {
+            Swal.fire({
+                title: "Ingressos cadastrado com sucesso!",
+                icon: "success",
+                draggable: true
+            }).then(() => {
+                location.reload();
+            });
+        }
     });
 });
 
-// data.forEach(function(item) {
-//                 $('#identificador_sala').val(item.id);
-//                 $('#edit_nome').val(item.nome);
-//                 $('#edit_capacidade').val(item.capacidade);
-//             });
+

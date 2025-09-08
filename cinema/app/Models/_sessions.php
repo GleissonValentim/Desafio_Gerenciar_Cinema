@@ -19,4 +19,9 @@ class _sessions extends Model
     public function sala() {
         return $this->belongsTo('App\Models\Room');
     }
+
+    // Pertence a muitos ingressos
+    public function sessoes() {
+        return $this->belongsToMany('App\Models\Bookings');
+    }
 }
