@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\_sessions;
+use App\Models\Bookings;
 use Illuminate\Http\Request;
 use App\Models\Room;
 
@@ -104,9 +105,11 @@ class SalaController extends Controller
     public function lugares(int $sala){
 
         $room = Room::find($sala);
+        $ingresso = Bookings::all();
 
         return response()->json([
-            $room->capacidade
+            'capacidade' => $room->capacidade,
+            'itens' => $ingresso
         ]);
     }
 }

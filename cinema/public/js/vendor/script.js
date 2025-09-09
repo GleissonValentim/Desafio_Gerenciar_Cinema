@@ -374,7 +374,9 @@ $(document).ready(function(){
     $(document).on('click', '.reservar_lugar', function(e){
         e.preventDefault();
         sala = $(this).attr("id");
+        sessao = $(this).attr("name");
         $('.lugar').remove()
+        $('.coluna').remove()
 
         $.ajax({
             url: '/ingressos/reservar_lugar/' + sala,
@@ -383,30 +385,55 @@ $(document).ready(function(){
                 sala: sala
             }
         }).done(function(data){
-            cont = 0
-            for(i = 0; i < data; i++){
-                var novaDiv = $('<div class="lugar" id="' + cont  + '"></div>');
+
+            $('#total').val(data.capacidade)
+
+            console.log(data.itens)
+
+            var cont = 0
+            for(i = 0; i < data.capacidade; i++){
+
+                var novaDiv = $('<div class="lugar" id="' + cont  + '" name="' +  sessao + '"></div>');
                 cont++
 
                 $('.lugares').append(novaDiv);
+     
             }
-       
-            // $('#e').val(cont);
+                
+            var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
+            var coluna = data.capacidade / 18
+
+            for(i = 0; i < Math.ceil(coluna); i++){
+                
+                var novaDiv = $('<input class="coluna" type="text" value="' + colunas[i] + '" disabled>');
+
+                console.log(Math.floor(coluna))
+
+                $('.colunas').append(novaDiv);
+            }
         })
     });
 
     var assentos = []
     $(document).on('click', '.lugar', function(e){
         var assento = $(this).attr("id");
-        var sessao = $('.eu').val();
-        console.log(sessao)
+        var sessao = $(this).attr("name");
         assentoIgual = false
 
+        var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
+        var coluna = assento / 18
+
+        var lugar =  colunas[Math.floor(coluna)] + '-' + assento;
+
+        console.log(lugar)
+
         $.ajax({
-            url: '/ingressos/' + assento + '/reservar/' + sala + '/',
+            url: '/ingressos/' + lugar + '/reservar/' + sessao + '/',
             type: 'GET',
             data:{
-                assento: assento,
+                lugar: lugar,
                 sessao: sessao
             }
         }).done(function(data){
@@ -420,21 +447,21 @@ $(document).ready(function(){
                 assento = null
             } 
 
-            // for(var i = 0; i < assentos.length; i++){
-            //     if(assentos[i] = assento){
-            //         assentoIgual = true
-            //     }
-            // }
+            for(var i = 0; i < assentos.length; i++){
+                if(assentos[i] == assento){
+                    assentoIgual = true
+                }
+            }
 
-            // if(assentoIgual == true){
-            //     Swal.fire({
-            //         title: "Erro",
-            //         text: "Você já selecionou essa assento",
-            //         icon: "error"
-            //     });
-            //     assento = null
-            //     assentoIgual = false
-            // }
+            if(assentoIgual == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: "Você já selecionou essa assento",
+                    icon: "error"
+                });
+                assento = null
+                
+            }
             
             assentos.push(assento);
         });
@@ -445,23 +472,32 @@ $(document).ready(function(){
         var conteudo = null
         var mensagem = null
 
+        var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
         for(var i = 0; i < assentos.length; i++){
+
+            if(assentos[i] != null){
+                var coluna = Math.floor(assentos[i] / 18)
+                var lugar = colunas[coluna] + '-' + assentos[i];
+            }
 
             $.ajax({
                 url: '/ingressos/reservar',
                 type: 'POST',
                 data:{
-                    assento: assentos[i],
+                    assento: lugar,
                     sala: sala,
                     _token: token,
                 }
             }).done(function(data){
-                if(data.erro == false){
-                    conteudo = false
-                    mensagem = data.mensagem
-                } else {
-                    conteudo = true
-                    mensagem = "Ingresso cadastrado com sucesso!"
+                if(i == assentos.length){
+                    if(data.erro == false){
+                        conteudo = false
+                        mensagem = data.mensagem
+                    } else {
+                        conteudo = true
+                        mensagem = "Ingresso cadastrado com sucesso!"
+                    }
                 }
             });
         }
@@ -469,7 +505,7 @@ $(document).ready(function(){
         if(conteudo == false){
             Swal.fire({
                 title: "Erro",
-                text: mensagem,
+                text: "Nenhum assento foi selecionado!",
                 icon: "error"
             });
         } else {

@@ -246,7 +246,7 @@ th, td {
 }
 
 .form-ingresso {
-    margin-top: 200px;
+    margin-top: 100px;
     width: 580px;
 }
 
@@ -278,6 +278,7 @@ th, td {
 .lugares {
     display: flex;
     flex-wrap: wrap;
+    padding-left: 0;
 }
 
 .lugar {
@@ -325,7 +326,24 @@ th, td {
 .numero_assentos input {
     width: 25px;
     height: 25px;
-    border: 1px solid rgb(168, 168, 168);
+    border: none;
+    color: #c28008;
+}
+
+.sala_lugar {
+    display: flex;
+}
+
+.colunas {
+    margin-top: 15px;
+}
+
+.colunas input {
+    width: 45px;
+    border: none;
+    margin-top: 4px;
+    padding-top: 10px;
+    text-align: center;
 }
 
 footer {

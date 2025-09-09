@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckIfIsAdmin;
 use App\Models\Bookings;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);
 Route::post('/ingressos/reservar', [BookingsController::class, 'addIngresso']);
 Route::get('/ingressos/{id}/reservar/{sessao}', [BookingsController::class, 'verificarAssento']);
 Route::get('/adm/sessoes/{id}/edit', [SessaoController::class, 'edit'])->middleware(CheckIfIsAdmin::class);

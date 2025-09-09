@@ -41,44 +41,13 @@
                                         <td>{{ DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y') }}</td>
                                         <td>{{ $sessao->horario }}</td>
                                         <td>{{ $sessao->preco }}</td>
-                                        <td><button class="ingresso_button reservar_lugar" id="{{ $sessao->rooms_id }}" data-modal-target="cadeiras-modal" 
-                                        data-modal-toggle="cadeiras-modal" name="create-outline">Reservar</button></td>
-                                        <input class="eu" type="hidden" value="{{ $sessao->id }}">
+                                        <td><button class="ingresso_button reservar_lugar" id="{{ $sessao->rooms_id }}" name="{{ $sessao->id }}" data-modal-target="cadeiras-modal" 
+                                        data-modal-toggle="cadeiras-modal" >Reservar</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <!-- @csrf
-                    <div>
-                        <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
-                        <select name="data" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="data_ingresso">
-                            <option value="">Selecione uma data</option>
-                            @foreach($sessoes as $sessao)
-                                <option value="{{ $sessao->id }}">{{ DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y') }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="horario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Horário</label>
-                        <select name="horario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                            <option value="">Selecione um horário</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="preco" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço</label>
-                        <input type="text" name="preco" id="preco" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="R$ 12,00" readonly />
-                    </div>
-                    <div>
-                        <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
-                        <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $movie->titulo }}" readonly />
-                    </div>
-                    <div>
-                        <button class="assentos" data-modal-target="static-modal" data-modal-toggle="static-modal" require>Reservar assentos</button>
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="button_cadastrar">Reservar</button>
-                    </div> -->
                 </form>
             @endif
         </div>
@@ -104,20 +73,21 @@
             <!-- Modal body -->
             <form class="space-y-4" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="cadastrar_filme">
                 @csrf
-                <div class="p-4 md:p-5 lugares">
-                    
-
-                        <!-- <div class="flex justify-end">
-                            <button class="button_cadastrar">Cadastrar</button>
-                        </div> -->
-                </div>
                 <div>
-                    <p class="text-center">Tela</p>
+                    <p class="text-center mt-10">Tela</p>
+                </div>
+                <div class="sala_lugar">
+                    <div class="colunas">
+    
+                    </div>
+                    <div class="p-4 md:p-5 lugares">
+                    
+                    </div>
                 </div>
                 <div class="reservar_lugares">
                     <div class="numero_assentos">
                         <p>Capacidade da sala: </p>
-                        <input id="e" type="number" value="12" disabled>
+                        <input id="total" type="number" disabled>
                     </div>
                     <button id="concluir_reserva">Reservar sala</button>
                 </div>
