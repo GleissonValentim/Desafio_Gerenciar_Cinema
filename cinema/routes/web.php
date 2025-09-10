@@ -3,12 +3,14 @@
 use App\Http\Controllers\BookingsController ;
 use App\Http\Controllers\IngressoController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\SalaController;
 use App\Http\Controllers\SessaoController;
 use App\Http\Middleware\CheckIfIsAdmin;
 use App\Models\Bookings;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/ingressos/qrCode', [QrCodeController::class, 'addQrCode']);
 Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);
 Route::post('/ingressos/reservar', [BookingsController::class, 'addIngresso']);
 Route::get('/ingressos/{id}/reservar/{sessao}', [BookingsController::class, 'verificarAssento']);

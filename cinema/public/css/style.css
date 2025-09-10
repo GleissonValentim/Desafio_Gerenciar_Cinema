@@ -330,6 +330,10 @@ th, td {
     color: #c28008;
 }
 
+.largura {
+    width: 950px;
+}
+
 .sala_lugar {
     display: flex;
 }

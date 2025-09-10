@@ -501,23 +501,49 @@ $(document).ready(function(){
                 }
             });
         }
-
-        if(conteudo == false){
-            Swal.fire({
-                title: "Erro",
-                text: "Nenhum assento foi selecionado!",
-                icon: "error"
-            });
-        } else {
-            Swal.fire({
-                title: "Ingressos cadastrado com sucesso!",
-                icon: "success",
-                draggable: true
-            }).then(() => {
-                location.reload();
-            });
-        }
+        // if(conteudo == false){
+        //     Swal.fire({
+        //         title: "Erro",
+        //         text: "Nenhum assento foi selecionado!",
+        //         icon: "error"
+        //     });
+        // } else {
+        //     Swal.fire({
+        //         title: "Ingressos cadastrado com sucesso!",
+        //         icon: "success",
+        //         draggable: true
+        //     })
+        // }
     });
+
+    $(document).on('click', '#concluir_reserva', function(e){
+        e.preventDefault();
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: '/ingressos/email',
+            method: 'POST',
+            data:{
+                assentos: assentos,
+                sala: sala,
+                _token: token,
+            }
+        }).done(function(data){
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+            } else {
+                Swal.fire({
+                    title: data.mensagem,
+                    icon: "success",
+                    draggable: true
+                })
+            }
+        })
+    })
 });
 
 

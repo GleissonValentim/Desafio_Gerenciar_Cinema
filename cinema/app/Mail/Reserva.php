@@ -14,12 +14,26 @@ class Reserva extends Mailable
 {
     use Queueable, SerializesModels;
 
+    // public $email;
+    // public $nome;
+    // public $sala;
+    // public $horario;
+    // public $date;
+    // public $filme;
+    // public $assentos;
+
     /**
      * Create a new message instance.
      */
     public function __construct(public readonly array $data)
     {
-        
+        // $this->email = $data['email'];
+        // $this->nome = $data['nome'];
+        // $this->sala = $data['sala'];
+        // $this->horario = $data['horario'];
+        // $this->date = $data['data'];
+        // $this->filme = $data['filme'];
+        // $this->assentos = $data['assentos'];
     }
 
     /**
@@ -28,8 +42,8 @@ class Reserva extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from:new Address()
-            subject: 'Reserva',
+            from:new Address($this->data['email'], $this->data['nome']),
+            subject: $this->data['subject'],
         );
     }
 
@@ -39,7 +53,7 @@ class Reserva extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: $this->data['nome'],
+            html: 'mails.reserva', 
         );
     }
 
