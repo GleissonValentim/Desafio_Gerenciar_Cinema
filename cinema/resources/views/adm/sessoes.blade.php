@@ -31,11 +31,11 @@
                 @foreach($sessoes as $sessao)
                     <tr>
                         <td>{{ $loop->index + 1 }}</td>
-                        <td>{{ $sessao->movies_id }}</td>
+                        <td>{{ $sessao->movie->titulo }}</td>
                         <td>{{ $sessao->horario }}</td>
                         <td>{{ DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y') }}</td>
                         <td>R$ {{ $sessao->preco }},00</td>
-                        <td>{{ $sessao->rooms_id }}</td>
+                        <td>{{ $sessao->sala->nome }}</td>
                         <td>
                             <span><ion-icon class="editar atualizar_sessao" id="{{ $sessao->id }}" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_sessao" id="{{ $sessao->id }}" name="trash-outline"></ion-icon></span>
@@ -45,6 +45,10 @@
                 @endforeach
             </tbody>
         </table>
+        <!-- Paginação -->
+        <div class="mt-10">
+            {{ $sessoes->links() }}
+        </div>
     </div>
 @endif
 
@@ -139,7 +143,7 @@
                     </div>
                     <div>
                         <label for="preco" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço</label>
-                        <input type="number" name="preco" id="edit_preco" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" required />
+                        <input type="number" name="preco" id="edit_preco" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o preço da sessão" step="0.001" required />
                     </div>
                     <div>
                         <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>

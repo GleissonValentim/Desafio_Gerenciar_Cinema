@@ -11,11 +11,9 @@ class SessaoController extends Controller
 {
     public function getSessoes(){
 
-        $sessoes = _sessions::all();
+        $sessoes = _sessions::paginate(15);
         $filmes = Movie::all();
         $salas = Room::all();
-
-        // $eu = _sessions::with('sala')->get();
 
         return view('adm.sessoes', ['sessoes' => $sessoes, 'filmes' => $filmes, 'salas' => $salas]);
     }

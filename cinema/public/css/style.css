@@ -77,7 +77,7 @@ table {
 }
 
 .tabela {
-    padding: 5px 30px;
+    padding: 5px 30px 0 30px;
     padding-bottom: 20px;
     background-color: white;
     border-radius: 5px;
@@ -199,11 +199,15 @@ th, td {
 
 .classificao {
     border-radius: 5px;
-    padding: 5px;
+    padding: 5px 10px;
     font-size: 10px;
     color: white;
     font-weight: bold;
     margin-right: 10px;
+}
+
+.filme div {
+    display: flex;
 }
 
 .especial {
@@ -348,6 +352,18 @@ th, td {
     margin-top: 4px;
     padding-top: 10px;
     text-align: center;
+}
+
+.apagar_reserva_cliente {
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.apagar_reserva_cliente:hover {
+    background-color: rgb(255, 46, 46);
 }
 
 footer {

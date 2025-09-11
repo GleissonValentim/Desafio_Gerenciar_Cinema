@@ -8,13 +8,13 @@
         <div class="filme">
             <h1 class="titulo_filme_ingresso">{{ $movie->titulo }}</h1>
             @if($movie->classificacao >= 18)
-                <span class="classificao bg-red-600">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
+                <div><p class="classificao bg-red-600">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
             @elseif($movie->classificacao >= 16)
-                <span class="classificao especial">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
+                <div><p class="classificao especial">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
             @elseif($movie->classificacao >= 12)
-                <span class="classificao bg-yellow-500">{{ $movie->classificacao }} </span><span>{{ $movie->genero }}</span>
+                <div><p class="classificao bg-yellow-500">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
             @elseif($movie->classificacao == 0)
-                <span class="classificao livre bg-green-600 pb-4 ">L</span><span class="genero">{{ $movie->genero }}</span>
+                <div><p class="classificao livre bg-green-600 pb-4">L</p><p>{{ $movie->genero }}</p></div>
             @endif
             <img class="info-image mt-5" src="/img/movies/{{ $movie->image }}" alt="{{ $movie->title }}">
             <p>Data de estréia: {{ DateTime::createFromFormat('Y-m-d', $movie->data)->format('d/m/Y') }}</p>
@@ -47,15 +47,15 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <!-- Paginação -->
+                        <div class="mt-10">
+                            {{ $sessoes->links() }}
+                        </div>
                     </div>
                 </form>
             @endif
         </div>
     </div>
-
-    <ul>
-        
-    </ul>
 
     <!-- Main modal -->
 <div id="cadeiras-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

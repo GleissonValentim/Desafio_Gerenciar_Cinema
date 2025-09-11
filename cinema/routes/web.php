@@ -11,6 +11,10 @@ use App\Models\Bookings;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/ingressos/qrCode', [QrCodeController::class, 'addQrCode']);
+Route::delete('/clientes/reservas/{id}/destroy', [BookingsController::class, 'destroyCliente'])->middleware('auth');
+Route::delete('/adm/reservas/{id}/destroy', [BookingsController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
+Route::get('/clientes/reservas', [BookingsController::class, 'getReservasCliente'])->name('reservas_cliente')->middleware('auth');
+Route::get('/adm/reservas', [BookingsController::class, 'getReservas'])->name('reservas')->middleware(CheckIfIsAdmin::class);
 Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);
 Route::post('/ingressos/reservar', [BookingsController::class, 'addIngresso']);
 Route::get('/ingressos/{id}/reservar/{sessao}', [BookingsController::class, 'verificarAssento']);
@@ -23,8 +27,8 @@ Route::get('/adm/salas/{id}/edit', [SalaController::class, 'edit'])->middleware(
 Route::delete('/adm/salas/{id}/destroy', [SalaController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/salas', [SalaController::class, 'addSalas'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/salas', [SalaController::class, 'getSalas'])->name('salas')->middleware(CheckIfIsAdmin::class);
-Route::get('/ingressos/reservar_lugar/{sala}', [SalaController::class, 'lugares']);
-Route::get('/ingressos/reservar_ingresso/{movie}', [IngressoController::class, 'reservar']);
+Route::get('/ingressos/reservar_lugar/{sala}', [SalaController::class, 'lugares'])->middleware('auth');
+Route::get('/ingressos/reservar_ingresso/{movie}', [IngressoController::class, 'reservar'])->middleware('auth');
 Route::post('/adm/filmes/update', [MovieController::class, 'update'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/filmes/{id}/edit', [MovieController::class, 'edit'])->middleware(CheckIfIsAdmin::class);
 Route::delete('/adm/filmes/{id}/destroy', [MovieController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);

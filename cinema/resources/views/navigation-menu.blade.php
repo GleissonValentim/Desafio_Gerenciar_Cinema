@@ -24,18 +24,24 @@
                         {{ __('Home') }}
                     </x-nav-link>
                     @can('is-admin')
-                    <x-nav-link href="{{ route('salas') }}" :active="request()->routeIs('salas')">
-                        {{ __('Salas') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('filmes') }}" :active="request()->routeIs('filmes')">
-                        {{ __('Filmes') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('sessoes') }}" :active="request()->routeIs('sessoes')">
-                        {{ __('Sessões') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Reservas') }}
-                    </x-nav-link>
+                        <x-nav-link href="{{ route('salas') }}" :active="request()->routeIs('salas')">
+                            {{ __('Salas') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('filmes') }}" :active="request()->routeIs('filmes')">
+                            {{ __('Filmes') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('sessoes') }}" :active="request()->routeIs('sessoes')">
+                            {{ __('Sessões') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('reservas') }}" :active="request()->routeIs('reservas')">
+                            {{ __('Reservas') }}
+                        </x-nav-link>
+                    @else
+                        @auth
+                            <x-nav-link href="{{ route('reservas_cliente') }}" :active="request()->routeIs('reservas_cliente')">
+                                {{ __('Reservas') }}
+                            </x-nav-link>
+                        @endauth
                     @endcan
                 </div>
             </div>

@@ -25,7 +25,7 @@ class MovieController extends Controller
 
     public function getFilmes() {
 
-        $movies = Movie::all();
+        $movies = Movie::paginate(15);
 
         return view('adm.filmes', ['movies' => $movies]);
     }

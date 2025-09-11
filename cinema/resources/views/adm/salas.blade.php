@@ -39,6 +39,10 @@
                 @endforeach
             </tbody>
         </table>
+        <!-- Paginação -->
+        <div class="mt-10">
+            {{ $salas->links() }}
+        </div>
     </div>
 @endif
 

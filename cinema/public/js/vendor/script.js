@@ -415,6 +415,100 @@ $(document).ready(function(){
         })
     });
 
+    // script para deletar uma reserva
+    $(document).on('click', '.apagar_reserva', function(e){
+        e.preventDefault();
+        var del = $(this).attr("id");
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        Swal.fire({
+            title: "Tem certeza?",
+            text: "Você não poderá reverter isso!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#207ae0ff",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim, apague!",
+            cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    url: '/adm/reservas/' + del + '/destroy',
+                    type: 'DELETE',
+                    data:{
+                        _token: token,
+                        del: del
+                    }
+                }).done(function(data){
+                    if(data.erro == true){
+                        Swal.fire({
+                            title: "Erro",
+                            text: data.mensagem,
+                            icon: "error"
+                        });
+                    } else {
+                    if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Deletado!",
+                            text: data.mensagem,
+                            icon: "success"
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+
+    // script para deletar uma reserva do cliente
+    $(document).on('click', '.apagar_reserva_cliente', function(e){
+        e.preventDefault();
+        var del = $(this).attr("id");
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        Swal.fire({
+            title: "Tem certeza?",
+            text: "Você não poderá reverter isso!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#207ae0ff",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim, apague!",
+            cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    url: '/clientes/reservas/' + del + '/destroy',
+                    type: 'DELETE',
+                    data:{
+                        _token: token,
+                        del: del
+                    }
+                }).done(function(data){
+                    if(data.erro == true){
+                        Swal.fire({
+                            title: "Erro",
+                            text: data.mensagem,
+                            icon: "error"
+                        });
+                    } else {
+                    if (result.isConfirmed) {
+                            Swal.fire({
+                            title: "Deletado!",
+                            text: data.mensagem,
+                            icon: "success"
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+
     var assentos = []
     $(document).on('click', '.lugar', function(e){
         var assento = $(this).attr("id");
@@ -467,6 +561,7 @@ $(document).ready(function(){
         });
     });
 
+    var cadeiras = []
     $(document).on('click', '#concluir_reserva', function(e){
         let token = $('meta[name="csrf-token"]').attr('content');
         var conteudo = null
@@ -479,6 +574,7 @@ $(document).ready(function(){
             if(assentos[i] != null){
                 var coluna = Math.floor(assentos[i] / 18)
                 var lugar = colunas[coluna] + '-' + assentos[i];
+                cadeiras.push(lugar)
             }
 
             $.ajax({
@@ -490,14 +586,29 @@ $(document).ready(function(){
                     _token: token,
                 }
             }).done(function(data){
-                if(i == assentos.length){
-                    if(data.erro == false){
-                        conteudo = false
-                        mensagem = data.mensagem
-                    } else {
-                        conteudo = true
-                        mensagem = "Ingresso cadastrado com sucesso!"
-                    }
+                // if(i == assentos.length){
+                //     if(data.erro == false){
+                //         conteudo = false
+                //         mensagem = data.mensagem
+                //     } else {
+                //         conteudo = true
+                //         mensagem = "Ingresso cadastrado com sucesso!"
+                //     }
+                // }
+                if(data.erro == true){
+                    Swal.fire({
+                        title: "Erro",
+                        text: data.mensagem,
+                        icon: "error"
+                    });
+                } else {
+                    Swal.fire({
+                        title: data.mensagem,
+                        icon: "success",
+                        draggable: true
+                    }).then(() => {
+                        location.reload();
+                    });
                 }
             });
         }
@@ -516,34 +627,35 @@ $(document).ready(function(){
         // }
     });
 
-    $(document).on('click', '#concluir_reserva', function(e){
-        e.preventDefault();
-        let token = $('meta[name="csrf-token"]').attr('content');
+    // $(document).on('click', '#concluir_reserva', function(e){
+    //     e.preventDefault();
+    //     let token = $('meta[name="csrf-token"]').attr('content');
 
-        $.ajax({
-            url: '/ingressos/email',
-            method: 'POST',
-            data:{
-                assentos: assentos,
-                sala: sala,
-                _token: token,
-            }
-        }).done(function(data){
-            if(data.erro == true){
-                Swal.fire({
-                    title: "Erro",
-                    text: data.mensagem,
-                    icon: "error"
-                });
-            } else {
-                Swal.fire({
-                    title: data.mensagem,
-                    icon: "success",
-                    draggable: true
-                })
-            }
-        })
-    })
+    //     $.ajax({
+    //         url: '/ingressos/email',
+    //         method: 'POST',
+    //         data:{
+    //             cadeiras: cadeiras,
+    //             sala: sala,
+    //             _token: token,
+    //         }
+    //     }).done(function(data){
+    //         if(data.erro == true){
+    //             Swal.fire({
+    //                 title: "Erro",
+    //                 text: data.mensagem,
+    //                 icon: "error"
+    //             });
+    //         } else {
+    //             Swal.fire({
+    //                 title: data.mensagem,
+    //                 icon: "success",
+    //                 draggable: true
+    //             })
+    //             cadeiras.length = 0
+    //         }
+    //     })
+    // })
 });
 
 

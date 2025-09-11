@@ -11,7 +11,8 @@ class SalaController extends Controller
 {
     public function getSalas(){
 
-        $salas = room::all();
+        $salas = Room::paginate(15);
+        
         return view('adm.salas', ['salas' => $salas]);
     }
 

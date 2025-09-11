@@ -12,6 +12,6 @@ class Room extends Model
     
     // Pertence a muitas sessoes
     public function sessoes() {
-        return $this->belongsToMany('App\Models\Sessions');
+        return $this->belongsToMany('App\Models\_sessions');
     }
 }

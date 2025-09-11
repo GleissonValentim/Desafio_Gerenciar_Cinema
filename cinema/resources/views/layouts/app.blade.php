@@ -22,7 +22,7 @@
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div style="min-height: 86vh" class=" bg-gray-100">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -35,13 +35,15 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main style="flex-grow: 1">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     @yield('content')
                 </div>
             </main>
         </div>
-
+        <footer>
+            <p>HDC Events &copy; 2020</p>
+        </footer>
         @stack('modals')
 
         @livewireScripts
