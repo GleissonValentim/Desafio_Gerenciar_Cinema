@@ -7,7 +7,6 @@ use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\SalaController;
 use App\Http\Controllers\SessaoController;
 use App\Http\Middleware\CheckIfIsAdmin;
-use App\Models\Bookings;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/ingressos/qrCode', [QrCodeController::class, 'addQrCode']);

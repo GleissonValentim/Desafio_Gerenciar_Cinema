@@ -5,10 +5,10 @@
 
 .login {
     margin-right: 10px;
-    color: rgb(134, 134, 134);
-    border: 1px solid rgb(224, 224, 224);
+    color: black;
+    border: 2px solid rgb(43, 43, 136);
     border-radius: 5px;
-    padding: 11px;
+    padding: 7px 15px;
 }
 
 .login:hover {
@@ -16,16 +16,15 @@
 }
 
 .register {
-    padding: 10px;
+    padding: 9px;
     border-radius: 5px;
-    background-color: #fcbc6f;
-    border: 2px solid #c28008;
+    background-color: rgb(43, 43, 136);
     color: white;
 }
 
 .register:hover {
-    background-color: #c28008;
-    border-color: #c28008;
+    background-color: rgb(64, 64, 201);
+    border-color: rgb(43, 43, 136);
 }
 
 .titulo {
@@ -42,23 +41,21 @@
 }
 
 .button {
-    background-color: #f2a340;
-    border: 2px solid #c28008;
-    padding: 10px;
+    background-color: rgb(43, 43, 136);
+    padding: 12px;
     border-radius: 5px;
     margin-top: 10px;
     color: white;
 }
 
 .button:hover {
-    background-color: #c28008;
-    border-color: #c28008;
+    background-color: rgb(64, 64, 201);
+    border-color: rgb(43, 43, 136);
 }
 
 .button_cadastrar {
-    background-color: #f2a340;
-    border: 2px solid #c28008;
-    padding: 10px;
+    background-color: rgb(43, 43, 136);
+    padding: 12px;
     border-radius: 5px;
     margin-top: 10px;
     color: white;
@@ -66,7 +63,7 @@
 }
 
 .button_cadastrar:hover {
-    background-color: #c28008;
+    background-color: rgb(64, 64, 201);
 }
 
 table {
@@ -88,22 +85,27 @@ thead {
     background-color: #f5f5f5;
 }
 
+.ocupado {
+    background-color: red;
+}
+
 td {
     border-top: 1px solid rgb(202, 202, 202);
 }
 
 th, td {
     padding: 15px 0;
+    width: 100px;
     text-align: center;
 }
 
 .link_filme {
-    color: #f2a340;
+    color: rgb(47, 47, 199);
     text-decoration: underline
 }
 
 .link_filme:hover {
-    color: #c28008;
+    color: rgb(43, 43, 136);
 }
 
 .edicao {
@@ -113,7 +115,7 @@ th, td {
 }
 
 .editar {
-    color: rgb(2, 154, 255);
+    color: rgb(15, 95, 148);
     margin-right: 10px;
     cursor: pointer;
 }
@@ -267,16 +269,15 @@ th, td {
 }
 
 .ingresso_button {
-    background-color: #f2a340;
-    border: 2px solid #c28008;
+    background-color: rgb(43, 43, 136);
     color: white;
-    padding: 3px 5px;
+    padding: 5px 8px;
     border-radius: 5px;
 }
 
 .ingresso_button:hover {
-    background-color: #c28008;
-    border-color: #c28008;
+    background-color: rgb(64, 64, 201);
+    border-color: rgb(43, 43, 136);
 }
 
 .lugares {
@@ -294,8 +295,8 @@ th, td {
 }
 
 .lugar:hover {
-    background-color: #f2a340;
-    border: 1px solid #c28008;
+    background-color: rgb(43, 43, 136);
+    border: 1px solid rgb(43, 43, 136);;
 }
 
 .reservar_lugares {
@@ -306,17 +307,16 @@ th, td {
 }
 
 .reservar_lugares button {
-    background-color: #f2a340;
-    border: 2px solid #c28008;
-    padding: 3px 5px;
+    background-color: rgb(43, 43, 136);
+    padding: 5px 5px;
     margin: 20px 10px;
     border-radius: 5px;
     color: white;
 }
 
 .reservar_lugares button:hover {
-    background-color: #c28008;
-    border-color: #c28008;
+    background-color: rgb(64, 64, 201);
+    border-color: rgb(43, 43, 136);
 }
 
 .reservar_lugares p {
@@ -331,7 +331,7 @@ th, td {
     width: 25px;
     height: 25px;
     border: none;
-    color: #c28008;
+    color: rgb(64, 64, 201);
 }
 
 .largura {
@@ -369,7 +369,8 @@ th, td {
 footer {
     text-align: center;
     width: 100%;
-    background-color: white;
+    background-color: rgb(9, 9, 36);
+    color: white;
     padding: 30px;
     margin-top: 50px;
 }

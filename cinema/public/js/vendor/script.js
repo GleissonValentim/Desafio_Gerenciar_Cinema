@@ -388,27 +388,31 @@ $(document).ready(function(){
 
             $('#total').val(data.capacidade)
 
-            console.log(data.itens)
-
             var cont = 0
             for(i = 0; i < data.capacidade; i++){
 
                 var novaDiv = $('<div class="lugar" id="' + cont  + '" name="' +  sessao + '"></div>');
                 cont++
 
+                // if(data.itens(i).ocupado == 1){
+                //     $('.lugar').addClass("ocupado")
+                //     console.log('eu')
+                // }
+
+                if(data.itens.includes(i)){
+                    console.log("ey")
+                    novaDiv.addClass("ocupado")
+                }
+
                 $('.lugares').append(novaDiv);
-     
             }
                 
             var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-
             var coluna = data.capacidade / 18
 
             for(i = 0; i < Math.ceil(coluna); i++){
                 
                 var novaDiv = $('<input class="coluna" type="text" value="' + colunas[i] + '" disabled>');
-
-                console.log(Math.floor(coluna))
 
                 $('.colunas').append(novaDiv);
             }
@@ -521,8 +525,6 @@ $(document).ready(function(){
 
         var lugar =  colunas[Math.floor(coluna)] + '-' + assento;
 
-        console.log(lugar)
-
         $.ajax({
             url: '/ingressos/' + lugar + '/reservar/' + sessao + '/',
             type: 'GET',
@@ -539,24 +541,22 @@ $(document).ready(function(){
                     icon: "error"
                 });
                 assento = null
-            } 
-
-            for(var i = 0; i < assentos.length; i++){
-                if(assentos[i] == assento){
-                    assentoIgual = true
-                }
             }
 
-            if(assentoIgual == true){
-                Swal.fire({
-                    title: "Erro",
-                    text: "Você já selecionou essa assento",
-                    icon: "error"
-                });
-                assento = null
-                
-            }
-            
+            // for(var i = 0; i < assentos.length; i++){
+            //     if(assentos[i] == assento){
+            //         assentoIgual = true
+            //     }
+            // }
+
+            // if(assentoIgual == true){
+            //     Swal.fire({
+            //         title: "Erro",
+            //         text: "Você já selecionou essa assento",
+            //         icon: "error"
+            //     });
+            //     assento = null
+            // }
             assentos.push(assento);
         });
     });
@@ -564,98 +564,44 @@ $(document).ready(function(){
     var cadeiras = []
     $(document).on('click', '#concluir_reserva', function(e){
         let token = $('meta[name="csrf-token"]').attr('content');
-        var conteudo = null
-        var mensagem = null
 
         var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
         for(var i = 0; i < assentos.length; i++){
-
             if(assentos[i] != null){
                 var coluna = Math.floor(assentos[i] / 18)
                 var lugar = colunas[coluna] + '-' + assentos[i];
                 cadeiras.push(lugar)
             }
-
-            $.ajax({
-                url: '/ingressos/reservar',
-                type: 'POST',
-                data:{
-                    assento: lugar,
-                    sala: sala,
-                    _token: token,
-                }
-            }).done(function(data){
-                // if(i == assentos.length){
-                //     if(data.erro == false){
-                //         conteudo = false
-                //         mensagem = data.mensagem
-                //     } else {
-                //         conteudo = true
-                //         mensagem = "Ingresso cadastrado com sucesso!"
-                //     }
-                // }
-                if(data.erro == true){
-                    Swal.fire({
-                        title: "Erro",
-                        text: data.mensagem,
-                        icon: "error"
-                    });
-                } else {
-                    Swal.fire({
-                        title: data.mensagem,
-                        icon: "success",
-                        draggable: true
-                    }).then(() => {
-                        location.reload();
-                    });
-                }
-            });
         }
-        // if(conteudo == false){
-        //     Swal.fire({
-        //         title: "Erro",
-        //         text: "Nenhum assento foi selecionado!",
-        //         icon: "error"
-        //     });
-        // } else {
-        //     Swal.fire({
-        //         title: "Ingressos cadastrado com sucesso!",
-        //         icon: "success",
-        //         draggable: true
-        //     })
-        // }
+
+        $.ajax({
+            url: '/ingressos/reservar',
+            type: 'POST',
+            data:{
+                assento: cadeiras,
+                sala: sala,
+                _token: token,
+            }
+        }).done(function(data){
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+                cadeiras = null;
+            } else {
+                Swal.fire({
+                    title: data.mensagem,
+                    icon: "success",
+                    draggable: true
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        });
     });
-
-    // $(document).on('click', '#concluir_reserva', function(e){
-    //     e.preventDefault();
-    //     let token = $('meta[name="csrf-token"]').attr('content');
-
-    //     $.ajax({
-    //         url: '/ingressos/email',
-    //         method: 'POST',
-    //         data:{
-    //             cadeiras: cadeiras,
-    //             sala: sala,
-    //             _token: token,
-    //         }
-    //     }).done(function(data){
-    //         if(data.erro == true){
-    //             Swal.fire({
-    //                 title: "Erro",
-    //                 text: data.mensagem,
-    //                 icon: "error"
-    //             });
-    //         } else {
-    //             Swal.fire({
-    //                 title: data.mensagem,
-    //                 icon: "success",
-    //                 draggable: true
-    //             })
-    //             cadeiras.length = 0
-    //         }
-    //     })
-    // })
 });
 
 

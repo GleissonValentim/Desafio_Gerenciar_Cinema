@@ -35,21 +35,41 @@ class BookingsController extends Controller
 
         $user = Auth()->user();
 
-        $ingresso = new Bookings();
+        $cadastrou = false;
 
-        $ingresso->users_id = $user->id;
-        $ingresso->_sessions_id = $request->sala;
-        $ingresso->assentos = $request->assento;
-        $ingresso->ocupado = true;
+        foreach($request->assento as $assento){
 
-        if($ingresso->assentos == null){
-            return response()->json([
-                'mensagem' => 'Erro ao registrar o ingresso.',
-                'erro' => true
-            ]);
+            if($assento == null){
+                return response()->json([
+                    'mensagem' => 'Erro ao registrar o ingresso.',
+                    'erro' => true
+                ]);
+            }
+
+            $assentoIgual = Bookings::where([
+                ['assentos', '=', $assento]
+            ])->where([['_sessions_id', '=', $request->sala]])->get();
+
+            if(count($assentoIgual) > 0){
+                return response()->json([
+                    'mensagem' => 'O assento '.$assento.' já está ocupado',
+                    'erro' => true
+                ]);
+            }
+
+            $ingresso = new Bookings();
+
+            $ingresso->users_id = $user->id;
+            $ingresso->_sessions_id = $request->sala;
+            $ingresso->assentos = $assento;
+            $ingresso->ocupado = true;
+
+            if($ingresso->save()){
+                $cadastrou = true;
+            }
         }
 
-        if($ingresso->save()){
+        if($cadastrou){
 
             $sessao = _sessions::find($ingresso->_sessions_id);
             $filme = Movie::find($sessao->movies_id);
@@ -65,7 +85,7 @@ class BookingsController extends Controller
                 'sala' => $sala->nome,
                 'horario' => $sessao->horario,
                 'filme' => $filme->titulo,
-                'assentos' => $ingresso->assentos,
+                'assentos' => $request->assento,
             ]));
 
             if($sent){
@@ -75,8 +95,8 @@ class BookingsController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'mensagem' => 'Erro ao registrar o ingresso',
-                    'erro' => false
+                    'mensagem' => 'Ingressos registrados com sucesso, mas houve um erro com o envio do email.',
+                    'erro' => true
                 ]);
             }
         } else {
@@ -85,18 +105,6 @@ class BookingsController extends Controller
                 'erro' => true
             ]);
         }
-
-        // if($ingresso->save()){
-        //     return response()->json([
-        //         'mensagem' => 'Ingresso registrado com sucesso!',
-        //         'erro' => false
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'mensagem' => 'Erro ao registrar o ingresso.',
-        //         'erro' => true
-        //     ]);
-        // }
     }
 
     public function verificarAssento($lugar, $sessao){
@@ -156,9 +164,9 @@ class BookingsController extends Controller
 
     //     $user = Auth()->user();
 
-    //     $sessao = _sessions::find($request->sala);
-    //     $filme = Movie::find($sessao->movies_id);
-    //     $sala = Room::find($sessao->rooms_id);
+    //     $sessao = _sessions::find(1);
+    //     $filme = Movie::find(1);
+    //     $sala = Room::find(1);
 
     //     $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo;
 
