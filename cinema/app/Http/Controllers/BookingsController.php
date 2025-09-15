@@ -26,7 +26,7 @@ class BookingsController extends Controller
 
         $reservas = Bookings::where([
             ['users_id', '=', $user->id]
-        ])->paginate(15);
+        ])->where([['ativo', '=', 1]])->paginate(15);
 
         return view('clientes.reserva', ['reservas' => $reservas]);
     }
@@ -37,73 +37,81 @@ class BookingsController extends Controller
 
         $cadastrou = false;
 
-        foreach($request->assento as $assento){
+        if(count($request->assento) == 0){
+            return response()->json([
+                'mensagem' => 'Erro ao registrar o ingresso.',
+                'erro' => true
+            ]);
+        } else {
+            foreach($request->assento as $assento){
 
-            if($assento == null){
+                if($assento == null){
+                    return response()->json([
+                        'mensagem' => 'Erro ao registrar o ingresso.',
+                        'erro' => true
+                    ]);
+                } else {
+                    $assentoIgual = Bookings::where([
+                        ['assentos', '=', $assento]
+                    ])->where([['_sessions_id', '=', $request->sala]])->get();
+
+                    if(count($assentoIgual) > 0){
+                        return response()->json([
+                            'mensagem' => 'O assento '.$assento.' já está ocupado',
+                            'erro' => true
+                        ]);
+                    } else {
+                        $ingresso = new Bookings();
+
+                        $ingresso->users_id = $user->id;
+                        $ingresso->_sessions_id = $request->sala;
+                        $ingresso->assentos = $assento;
+                        $ingresso->ativo = 1;
+                        $ingresso->ocupado = true;
+
+                        if($ingresso->save()){
+                            $cadastrou = true;
+                        }
+                    }
+                }
+            }
+
+            if($cadastrou){
+
+                $sessao = _sessions::find($ingresso->_sessions_id);
+                $filme = Movie::find($sessao->movies_id);
+                $sala = Room::find($sessao->rooms_id);
+
+                $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo;
+
+                $sent = Mail::to('gleisson8452@hotmail.com', 'Gleisson')->send(new Reserva([
+                    'email' => $user->email,
+                    'nome' => $user->name,
+                    'subject' => $subject,
+                    'data' => DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y'),
+                    'sala' => $sala->nome,
+                    'horario' => $sessao->horario,
+                    'filme' => $filme->titulo,
+                    'assentos' => $request->assento,
+                ]));
+
+                if($sent){
+                    return response()->json([
+                        'mensagem' => 'Ingressos registrados com sucesso! Um email de confirmação foi enviado.',
+                        'erro' => false
+                    ]);
+                } else {
+                    return response()->json([
+                        'mensagem' => 'Ingressos registrados com sucesso, mas houve um erro com o envio do email.',
+                        'erro' => true
+                    ]);
+                }
+            } else {
                 return response()->json([
                     'mensagem' => 'Erro ao registrar o ingresso.',
                     'erro' => true
                 ]);
             }
-
-            $assentoIgual = Bookings::where([
-                ['assentos', '=', $assento]
-            ])->where([['_sessions_id', '=', $request->sala]])->get();
-
-            if(count($assentoIgual) > 0){
-                return response()->json([
-                    'mensagem' => 'O assento '.$assento.' já está ocupado',
-                    'erro' => true
-                ]);
-            }
-
-            $ingresso = new Bookings();
-
-            $ingresso->users_id = $user->id;
-            $ingresso->_sessions_id = $request->sala;
-            $ingresso->assentos = $assento;
-            $ingresso->ocupado = true;
-
-            if($ingresso->save()){
-                $cadastrou = true;
-            }
-        }
-
-        if($cadastrou){
-
-            $sessao = _sessions::find($ingresso->_sessions_id);
-            $filme = Movie::find($sessao->movies_id);
-            $sala = Room::find($sessao->rooms_id);
-
-            $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo;
-
-            $sent = Mail::to('gleisson8452@hotmail.com', 'Gleisson')->send(new Reserva([
-                'email' => $user->email,
-                'nome' => $user->name,
-                'subject' => $subject,
-                'data' => DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y'),
-                'sala' => $sala->nome,
-                'horario' => $sessao->horario,
-                'filme' => $filme->titulo,
-                'assentos' => $request->assento,
-            ]));
-
-            if($sent){
-                return response()->json([
-                    'mensagem' => 'Ingressos registrados com sucesso! Um email de confirmação foi enviado.',
-                    'erro' => false
-                ]);
-            } else {
-                return response()->json([
-                    'mensagem' => 'Ingressos registrados com sucesso, mas houve um erro com o envio do email.',
-                    'erro' => true
-                ]);
-            }
-        } else {
-            return response()->json([
-                'mensagem' => 'Erro ao registrar o ingresso.',
-                'erro' => true
-            ]);
         }
     }
 
@@ -128,9 +136,9 @@ class BookingsController extends Controller
 
     public function destroyCliente($id) {
 
-        $reserva = Bookings::find($id);
+        $reserva = Bookings::where([['id', '=', $id]])->update(['ativo' => 0]);
 
-        if($reserva->delete()){
+        if($reserva){
             return response()->json([
                 'mensagem' => 'Reserva cancelada com sucesso!',
                 'erro' => false
@@ -160,37 +168,16 @@ class BookingsController extends Controller
         }
     }
 
-    // public function addEmail(Request $request){
+    public function getHistoricoCliente() {
 
-    //     $user = Auth()->user();
+        $user = Auth()->user();
 
-    //     $sessao = _sessions::find(1);
-    //     $filme = Movie::find(1);
-    //     $sala = Room::find(1);
+        $reservas = Bookings::find($user->id);
 
-    //     $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo;
+        $reservas = Bookings::where([
+            ['users_id', '=', $user->id]
+        ])->where([['ativo', '=', 0]])->paginate(15);
 
-    //     $sent = Mail::to('gleisson8452@hotmail.com', 'Gleisson')->send(new Reserva([
-    //         'email' => $user->email,
-    //         'nome' => $user->name,
-    //         'subject' => $subject,
-    //         'data' => DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y'),
-    //         'sala' => $sala->nome,
-    //         'horario' => $sessao->horario,
-    //         'filme' => $filme->titulo,
-    //         'assentos' => $request->cadeiras,
-    //     ]));
-
-    //     if($sent){
-    //         return response()->json([
-    //             'mensagem' => 'Ingressos registrados com sucesso! Um email de confirmação foi enviado.',
-    //             'erro' => false
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'mensagem' => 'Erro ao registrar o ingresso',
-    //             'erro' => false
-    //         ]);
-    //     }
-    // }
+        return view('clientes.historico', ['reservas' => $reservas]);
+    }
 }

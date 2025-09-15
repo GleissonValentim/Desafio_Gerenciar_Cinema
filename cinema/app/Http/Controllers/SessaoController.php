@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\_sessions;
+use App\Models\Bookings;
 use App\Models\Movie;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -75,20 +76,29 @@ class SessaoController extends Controller
 
     public function destroy(string $id){
 
-        return redirect('/register');
-
         $sessao = _sessions::find($id);
 
-        if($sessao->delete()){
+        $reservas = Bookings::where([
+            ['_sessions_id', '=', $sessao->id]
+        ])->get();
+
+        if(count($reservas) > 0){
             return response()->json([
-                'mensagem' => 'Sessão removida com sucesso!',
-                'erro' => false
-            ]);
-        } else {
-            return response()->json([
-                'mensagem' => 'Erro ao remover a sessão!',
+                'mensagem' => 'Você não pode deletar essa sessão pois há reservas ativas cadastradas nessa mesma sessão.',
                 'erro' => true
             ]);
+        } else {
+            if($sessao->delete()){
+                return response()->json([
+                    'mensagem' => 'Sessão removida com sucesso!',
+                    'erro' => false
+                ]);
+            } else {
+                return response()->json([
+                    'mensagem' => 'Erro ao remover a sessão!',
+                    'erro' => true
+                ]);
+            }
         }
     }
 }

@@ -100,7 +100,7 @@ class MovieController extends Controller
 
             $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
 
-            $requestImage->move(public_path('img/events'), $imageName);
+            $requestImage->move(public_path('img/movies'), $imageName);
 
             $data['image'] = $imageName;
         }

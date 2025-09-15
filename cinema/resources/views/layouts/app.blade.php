@@ -42,7 +42,7 @@
             </main>
         </div>
         <footer>
-            <p>HDC Events &copy; 2020</p>
+            <p>Cinépolis &copy; 2025</p>
         </footer>
         @stack('modals')
 

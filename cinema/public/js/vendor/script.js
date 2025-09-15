@@ -379,10 +379,10 @@ $(document).ready(function(){
         $('.coluna').remove()
 
         $.ajax({
-            url: '/ingressos/reservar_lugar/' + sala,
+            url: '/ingressos/reservar_lugar/' + sessao,
             type: 'GET',
             data:{
-                sala: sala
+                sessao: sessao
             }
         }).done(function(data){
 
@@ -394,17 +394,13 @@ $(document).ready(function(){
                 var novaDiv = $('<div class="lugar" id="' + cont  + '" name="' +  sessao + '"></div>');
                 cont++
 
-                // if(data.itens(i).ocupado == 1){
-                //     $('.lugar').addClass("ocupado")
-                //     console.log('eu')
-                // }
-
-                if(data.itens.includes(i)){
-                    console.log("ey")
-                    novaDiv.addClass("ocupado")
-                }
-
                 $('.lugares').append(novaDiv);
+            }
+
+            for(j = 0; j < data.itens.length; j++){
+                const numeroExtraido = data.itens[j].assentos.match(/\d+/)[0];
+
+                $('#' + numeroExtraido +'').addClass("ocupado")
             }
                 
             var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -514,9 +510,10 @@ $(document).ready(function(){
     });
 
     var assentos = []
+    var sessao = 0
     $(document).on('click', '.lugar', function(e){
         var assento = $(this).attr("id");
-        var sessao = $(this).attr("name");
+        sessao = $(this).attr("name");
         assentoIgual = false
 
         var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -524,6 +521,10 @@ $(document).ready(function(){
         var coluna = assento / 18
 
         var lugar =  colunas[Math.floor(coluna)] + '-' + assento;
+
+        console.log(lugar)
+
+        $(this).css("background-color", "green");
 
         $.ajax({
             url: '/ingressos/' + lugar + '/reservar/' + sessao + '/',
@@ -533,7 +534,6 @@ $(document).ready(function(){
                 sessao: sessao
             }
         }).done(function(data){
-            // $('.link').css("background-color", "green");
             if(data.erro == true){
                 Swal.fire({
                     title: "Erro",
@@ -580,7 +580,7 @@ $(document).ready(function(){
             type: 'POST',
             data:{
                 assento: cadeiras,
-                sala: sala,
+                sala: sessao,
                 _token: token,
             }
         }).done(function(data){

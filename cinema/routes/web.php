@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/ingressos/qrCode', [QrCodeController::class, 'addQrCode']);
 Route::delete('/clientes/reservas/{id}/destroy', [BookingsController::class, 'destroyCliente'])->middleware('auth');
 Route::delete('/adm/reservas/{id}/destroy', [BookingsController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
+Route::get('/clientes/historico', [BookingsController::class, 'getHistoricoCliente'])->name('historico')->middleware('auth');
 Route::get('/clientes/reservas', [BookingsController::class, 'getReservasCliente'])->name('reservas_cliente')->middleware('auth');
 Route::get('/adm/reservas', [BookingsController::class, 'getReservas'])->name('reservas')->middleware(CheckIfIsAdmin::class);
 Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);

@@ -41,6 +41,9 @@
                             <x-nav-link href="{{ route('reservas_cliente') }}" :active="request()->routeIs('reservas_cliente')">
                                 {{ __('Reservas') }}
                             </x-nav-link>
+                            <x-nav-link href="{{ route('historico') }}" :active="request()->routeIs('historico')">
+                                {{ __('Histórico') }}
+                            </x-nav-link>
                         @endauth
                     @endcan
                 </div>

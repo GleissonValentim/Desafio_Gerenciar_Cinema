@@ -103,14 +103,19 @@ class SalaController extends Controller
         }
     }
 
-    public function lugares(int $sala){
+    public function lugares(int $sessao){
 
-        $room = Room::find($sala);
-        $ingresso = Bookings::all();
+        $novaSessao = _sessions::find($sessao);
+
+        $room = Room::find($novaSessao->rooms_id);
+
+        $sessaoAtual = bookings::where([
+            ['_sessions_id', '=', $novaSessao->id]
+        ])->get();
 
         return response()->json([
             'capacidade' => $room->capacidade,
-            'itens' => $ingresso
+            'itens' => $sessaoAtual
         ]);
     }
 }

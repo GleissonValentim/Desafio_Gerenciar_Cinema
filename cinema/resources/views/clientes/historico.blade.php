@@ -4,10 +4,10 @@
 
 @section('content')
 
-<h1 class="titulo">Reservas atuais</h1>
+<h1 class="titulo">Histórico de reservas</h1>
 
 @if(count($reservas) == 0)
-    <p class="text-center">Não há reservas cadastradas</p>
+    <p class="text-center">Não há nenhum histórico de reservas anteriores</p>
 @else
     <div class="tabela">
         <table class="mt-10">
@@ -19,7 +19,6 @@
                     <th scope="col">Assentos</th>
                     <th scope="col">Data</th>
                     <th scope="col">Horário</th>
-                    <th scope="col">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,10 +30,6 @@
                         <td>{{ $reserva->assentos }}</td>
                         <td>{{ DateTime::createFromFormat('Y-m-d', $reserva->sessao->data)->format('d/m/Y') }}</td>
                         <td>{{ $reserva->sessao->horario }}</td>
-                        <td>
-                            <button class="delete apagar_reserva_cliente" id="{{ $reserva->id }}">Cancelar</button>
-                            <meta name="csrf-token" content="{{ csrf_token() }}">
-                        </td>
                     </tr>
                 @endforeach
             </tbody>

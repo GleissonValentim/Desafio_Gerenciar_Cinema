@@ -29,8 +29,8 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Data</th>
-                                    <th scope="col">horário</th>
-                                    <th scope="col">preço</th>
+                                    <th scope="col">Horário</th>
+                                    <th scope="col">Preço</th>
                                     <th scope="col">Ação</th>
                                 </tr>
                             </thead>
@@ -40,7 +40,7 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ DateTime::createFromFormat('Y-m-d', $sessao->data)->format('d/m/Y') }}</td>
                                         <td>{{ $sessao->horario }}</td>
-                                        <td>{{ $sessao->preco }}</td>
+                                        <td>R$ {{ $sessao->preco }},00</td>
                                         <td><button class="ingresso_button reservar_lugar" id="{{ $sessao->rooms_id }}" name="{{ $sessao->id }}" data-modal-target="cadeiras-modal" 
                                         data-modal-toggle="cadeiras-modal" >Reservar</button></td>
                                     </tr>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="reservar_lugares">
                     <div class="numero_assentos">
-                        <p>Capacidade da sala: </p>
+                        <p>Capacidade da sala:</p>
                         <input id="total" type="number" disabled>
                     </div>
                     <button id="concluir_reserva">Reservar sala</button>
