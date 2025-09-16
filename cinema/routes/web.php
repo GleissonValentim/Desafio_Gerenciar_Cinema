@@ -9,12 +9,15 @@ use App\Http\Controllers\SessaoController;
 use App\Http\Middleware\CheckIfIsAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/ingressos/qrCode', [QrCodeController::class, 'addQrCode']);
+Route::get('/search', [SessaoController::class, 'search']);
+Route::get('qr-code', [QrCodeController::class, 'create']);
 Route::delete('/clientes/reservas/{id}/destroy', [BookingsController::class, 'destroyCliente'])->middleware('auth');
 Route::delete('/adm/reservas/{id}/destroy', [BookingsController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::get('/clientes/historico', [BookingsController::class, 'getHistoricoCliente'])->name('historico')->middleware('auth');
 Route::get('/clientes/reservas', [BookingsController::class, 'getReservasCliente'])->name('reservas_cliente')->middleware('auth');
 Route::get('/adm/reservas', [BookingsController::class, 'getReservas'])->name('reservas')->middleware(CheckIfIsAdmin::class);
+Route::post('/ingressos/confirmar', [BookingsController::class, 'confirmar']);
+Route::get('/ingressos/confirmar/{id}', [BookingsController::class, 'getConfirmar'])->middleware('auth');
 Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);
 Route::post('/ingressos/reservar', [BookingsController::class, 'addIngresso']);
 Route::get('/ingressos/{id}/reservar/{sessao}', [BookingsController::class, 'verificarAssento']);
@@ -45,5 +48,6 @@ Route::middleware([
     //     return view('dashboard');
     // })->name('dashboard');
 
-    Route::get('/dashboard', [MovieController::class, 'dashboard'])->name('dashboard');;
+    // Route::get('/dashboard', [MovieController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [MovieController::class, 'dashboard'])->name('dashboard');
 });

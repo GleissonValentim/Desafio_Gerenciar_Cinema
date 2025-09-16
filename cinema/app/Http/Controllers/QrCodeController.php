@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Http\Request;
+use LaravelQRCode\Facades\QRCode;
 
 class QrCodeController extends Controller
 {
-    public function addQrCode(){
-        return QrCode::generate(
-            'Hello, World!',
-        );
+    public function create(){
+        $qrCodeImage = QRCode::text('Olá, mundo do Laravel!')->svg();
+
+        return view('eu', ['qrCode' => $qrCodeImage]);
     }
 }

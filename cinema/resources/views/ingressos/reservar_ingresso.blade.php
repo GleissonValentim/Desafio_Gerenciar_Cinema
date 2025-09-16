@@ -21,10 +21,17 @@
             <p class="descricao">{{ $movie->descricao }}</p>
         </div>
         <div class="form-ingresso">
+            <form action="/search" method="GET">
+                <div class="pesquisa">
+                    <ion-icon class="search" type="submit" name="search-outline" id="search"></ion-icon>
+                    <input type="text" id="pesquisa" name="pesquisa">
+                    <input type="hidden" name="filme" value="{{ $movie->id }}">
+                </div>
+            </form>
             @if(count($sessoes) > 0)
                 <form class="space-y-4" action="/adm/filmes" method="POST" id="cadastrar_filme">
-                    <div class="tabela">
-                        <table class="mt-10">
+                    <div class="tabela esp">
+                        <table>
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -42,7 +49,7 @@
                                         <td>{{ $sessao->horario }}</td>
                                         <td>R$ {{ $sessao->preco }},00</td>
                                         <td><button class="ingresso_button reservar_lugar" id="{{ $sessao->rooms_id }}" name="{{ $sessao->id }}" data-modal-target="cadeiras-modal" 
-                                        data-modal-toggle="cadeiras-modal" >Reservar</button></td>
+                                        data-modal-toggle="cadeiras-modal">Reservar</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -53,6 +60,8 @@
                         </div>
                     </div>
                 </form>
+            @else
+                <p class="text-center mt-10">Nenhuma sessão foi encontrada</p>
             @endif
         </div>
     </div>

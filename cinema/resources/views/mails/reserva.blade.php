@@ -17,6 +17,8 @@
         </ul>
     @endforeach
 
+    {{ $qrcode = QRCode::text('http://127.0.0.1:8000/ingressos/confirmar/$data['id']')->svg() }}
+
     <p>Não esqueça de levar este e-mail ou mostrar o número do ingresso na entrada.</p>
     <p>Estamos ansiosos para te ver lá!</p>
 </div>

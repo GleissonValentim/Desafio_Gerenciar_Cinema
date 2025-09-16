@@ -335,6 +335,41 @@ th, td {
     color: rgb(64, 64, 201);
 }
 
+.esp {
+    margin: 0;
+}
+
+.pesquisa {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background-color: white;
+    padding-top: 10px;
+    padding-right: 30px;
+    border-radius: 5px 5px 0 0;
+}
+
+.pesquisa input {
+    margin-top: 15px;
+    padding: 5px;
+    border-radius: 0 5px 5px 0;
+    border-color: rgb(194, 194, 194);
+    border-left: none;
+}
+
+.search {
+    margin-top: 15px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid transparent;
+    padding: 9px 10px;
+    border-color: rgb(194, 194, 194);
+    cursor: pointer;
+}
+
+.eu {
+    background-color: red;
+}
+
 .largura {
     width: 950px;
 }

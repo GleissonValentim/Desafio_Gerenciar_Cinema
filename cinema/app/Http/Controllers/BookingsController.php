@@ -10,6 +10,7 @@ use App\Models\Room;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use LaravelQRCode\Facades\QRCode;
 
 class BookingsController extends Controller
 {
@@ -82,7 +83,7 @@ class BookingsController extends Controller
                 $filme = Movie::find($sessao->movies_id);
                 $sala = Room::find($sessao->rooms_id);
 
-                $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo;
+                $subject = 'Confirmação dos ingressos para o filme '.$filme->titulo; 
 
                 $sent = Mail::to('gleisson8452@hotmail.com', 'Gleisson')->send(new Reserva([
                     'email' => $user->email,
@@ -179,5 +180,9 @@ class BookingsController extends Controller
         ])->where([['ativo', '=', 0]])->paginate(15);
 
         return view('clientes.historico', ['reservas' => $reservas]);
+    }
+
+    public function getConfirmar() {
+        return view('ingressos.confirmar_ingresso');
     }
 }

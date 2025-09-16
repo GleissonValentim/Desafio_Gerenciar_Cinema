@@ -400,7 +400,9 @@ $(document).ready(function(){
             for(j = 0; j < data.itens.length; j++){
                 const numeroExtraido = data.itens[j].assentos.match(/\d+/)[0];
 
-                $('#' + numeroExtraido +'').addClass("ocupado")
+                var assento = parseInt(numeroExtraido) - 1
+
+                $('#' + assento +'').addClass("ocupado")
             }
                 
             var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -520,7 +522,9 @@ $(document).ready(function(){
 
         var coluna = assento / 18
 
-        var lugar =  colunas[Math.floor(coluna)] + '-' + assento;
+        var assento2 = parseInt(assento) + 1
+
+        var lugar =  colunas[Math.floor(coluna)] + '-' + assento2;
 
         console.log(lugar)
 
@@ -570,7 +574,8 @@ $(document).ready(function(){
         for(var i = 0; i < assentos.length; i++){
             if(assentos[i] != null){
                 var coluna = Math.floor(assentos[i] / 18)
-                var lugar = colunas[coluna] + '-' + assentos[i];
+                var assento = parseInt(assentos[i]) + 1
+                var lugar = colunas[coluna] + '-' + assento;
                 cadeiras.push(lugar)
             }
         }
@@ -602,6 +607,30 @@ $(document).ready(function(){
             }
         });
     });
-});
 
+    // script para pesquisa
+    $(document).on('click', '#search', function(e){
+        e.preventDefault();
+        var pesquisa = $('#pesquisa').val();
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: '/search/' + pesquisa,
+            type: 'GET',
+            data:{
+                _token: token,
+                pesquisa: pesquisa
+            }
+        }).done(function(data){
+
+            console.log(data)
+            data.forEach(function(item) {
+
+                var novaDiv = "<p>"+ item.id +"</p>" 
+
+                $('#e').append(novaDiv)
+            });
+        })
+    });
+});
 

@@ -101,4 +101,30 @@ class SessaoController extends Controller
             }
         }
     }
+
+    public function search(){
+
+        $pesquisa = request('pesquisa');
+        $filme = request('filme');
+
+        $sessao = _sessions::where([
+            ['data', 'like', '%'.$pesquisa.'%']
+        ])->paginate(5);
+
+        if(count($sessao) == null){
+            $sessao = _sessions::where([
+                ['horario', 'like', '%'.$pesquisa.'%']
+            ])->paginate(5);
+
+            if(count($sessao) == null){
+                $sessao = _sessions::where([
+                    ['preco', 'like', '%'.$pesquisa.'%']
+                ])->paginate(5);
+            }
+        }
+
+        $movie = Movie::find($filme);
+
+        return view('ingressos.reservar_ingresso',['sessoes' => $sessao, 'movie' => $movie]);
+    }
 }

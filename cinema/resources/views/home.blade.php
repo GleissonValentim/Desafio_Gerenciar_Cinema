@@ -33,4 +33,15 @@
         </div>
      @endif
 
+    <!-- <form class="text-center" action="/ingressos/qrCode" method="get" accept-charset="utf-8">
+			<div class="row mt-5">
+				<div class="col-md-12">
+					<h2>How to Generate QR Codes in Laravel 11 Example - Techsolutionstuff</h2>
+					<button class="btn btn-success" type="submit">Generate</button> 
+					<a href="{{asset('qrcode.png')}}" class="btn btn-primary" download>Download</a><br>
+					<img class="img-thumbnail" src="{{asset('qrcode.png')}}" width="150" height="150" style="margin-top: 20px">
+				</div>
+			</div>
+		</form> -->
+
 @endsection
