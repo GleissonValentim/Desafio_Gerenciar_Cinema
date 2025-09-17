@@ -359,13 +359,43 @@ $(document).ready(function(){
             console.log(data)
 
             data.forEach(function(item) {
-                $('#editar_sessao').val(item.id);
+                $('#identificador_sessao').val(item.id);
                 $('#edit_horario').val(item.horario);
                 $('#edit_movie').val(item.movies_id);
                 $('#edit_sala_id').val(item.rooms_id);
                 $('#edit_preco').val(item.preco);
                 $('#edit_sessao_data').val(item.data);
             });
+        })
+    });
+
+    // script para editar uma sessao
+    $(document).on('submit', '#editar_sessao', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: '/adm/sessoes/update',
+            method: 'POST',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+        }).done(function(data){
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+            } else {
+                Swal.fire({
+                    title: data.mensagem,
+                    icon: "success",
+                    draggable: true
+                }).then(() => {
+                    location.reload();
+                });
+            }
         })
     });
 
@@ -404,6 +434,17 @@ $(document).ready(function(){
 
                 $('#' + assento +'').addClass("ocupado")
             }
+
+            $('.reservar_lugar').css("background-color", "rgb(43, 43, 136)")
+
+            $(".reservar_lugar").hover(
+                function(){
+                    $(this).css("background-color", "rgb(64, 64, 201)");
+                },
+                function(){ 
+                    $(this).css("background-color", "rgb(43, 43, 136)"); 
+                }
+            );
                 
             var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
             var coluna = data.capacidade / 18
@@ -566,7 +607,7 @@ $(document).ready(function(){
     });
 
     var cadeiras = []
-    $(document).on('click', '#concluir_reserva', function(e){
+    $(document).on('click', '#concluir_registro_reserva', function(e){
         let token = $('meta[name="csrf-token"]').attr('content');
 
         var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -602,34 +643,64 @@ $(document).ready(function(){
                     icon: "success",
                     draggable: true
                 }).then(() => {
+                    cadeiras = null;
                     location.reload();
                 });
             }
         });
     });
 
-    // script para pesquisa
-    $(document).on('click', '#search', function(e){
+    // // script para pesquisa
+    // $(document).on('click', '#search', function(e){
+    //     e.preventDefault();
+    //     var pesquisa = $('#pesquisa').val();
+    //     let token = $('meta[name="csrf-token"]').attr('content');
+
+    //     $.ajax({
+    //         url: '/search/' + pesquisa,
+    //         type: 'GET',
+    //         data:{
+    //             _token: token,
+    //             pesquisa: pesquisa
+    //         }
+    //     }).done(function(data){
+
+    //         console.log(data)
+    //         data.forEach(function(item) {
+
+    //             var novaDiv = "<p>"+ item.id +"</p>" 
+
+    //             $('#e').append(novaDiv)
+    //         });
+    //     })
+    // });
+
+    // Queimar ingresso
+    $(document).on('submit', '#queimar_ingresso', function(e){
         e.preventDefault();
-        var pesquisa = $('#pesquisa').val();
-        let token = $('meta[name="csrf-token"]').attr('content');
-
         $.ajax({
-            url: '/search/' + pesquisa,
-            type: 'GET',
-            data:{
-                _token: token,
-                pesquisa: pesquisa
-            }
+            url: '/ingressos/confirmar',
+            method: 'POST',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
         }).done(function(data){
-
-            console.log(data)
-            data.forEach(function(item) {
-
-                var novaDiv = "<p>"+ item.id +"</p>" 
-
-                $('#e').append(novaDiv)
-            });
+            if(data.erro == true){
+                Swal.fire({
+                    title: "Erro",
+                    text: data.mensagem,
+                    icon: "error"
+                });
+            } else {
+                Swal.fire({
+                    title: data.mensagem,
+                    icon: "success",
+                    draggable: true
+                }).then(() => {
+                    window.location.href = "/";
+                });
+            }
         })
     });
 });

@@ -132,7 +132,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="editar_filme">
+                <form class="space-y-4" method="POST" enctype="multipart/form-data" id="editar_filme">
                     @csrf
                     <input type="hidden" name="id" id="identificador">
                     <div>

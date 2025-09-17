@@ -74,6 +74,25 @@ class SessaoController extends Controller
         ]);
     }
 
+    public function update(Request $request) {
+
+        $data = $request->all();
+
+        $sessao = _sessions::findOrFail($request->id)->update($data);
+
+        if($sessao){
+            return response()->json([
+                'mensagem' => 'Sessão editada com sucesso!',
+                'erro' => false
+            ]);
+        } else {
+            return response()->json([
+                'mensagem' => 'Erro ao editar a sessão.',
+                'erro' => false
+            ]);
+        }
+    }
+
     public function destroy(string $id){
 
         $sessao = _sessions::find($id);

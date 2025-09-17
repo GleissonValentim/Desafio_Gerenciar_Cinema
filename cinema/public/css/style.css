@@ -370,6 +370,26 @@ th, td {
     background-color: red;
 }
 
+.queimar_ingresso {
+    width: 750px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.queimar_ingresso h2 {
+    font-size: 18px;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.nn {
+    margin-top: 220px;
+}
+
+.queimar_ingresso li {
+    margin-left: 50px;
+}
+
 .largura {
     width: 950px;
 }

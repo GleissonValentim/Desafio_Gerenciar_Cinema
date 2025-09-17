@@ -4,51 +4,40 @@
 
 @section('content')
 
-<h1 class="titulo">Confirmar ingresso</h1>
+<h1 class="titulo text-center">Confirmar ingresso</h1>
 
-<form class="space-y-4 mt-10" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="editar_filme">
-    @csrf
-    <div>
-        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagem</label>
-        <input type="file" id="image" name="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme">
-    </div>
-    <div>
-        <label for="titulo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-        <input type="text" name="titulo" id="edit_titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" required />
-    </div>
-    <div>
-        <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrição</label>
-        <input type="text" name="descricao" id="edit_descricao" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
-    </div>
-    <div>
-        <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
-        <input type="date" name="data" id="edit_data" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
-    </div>
-    <div>
-        <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>
-        <select name="genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_genero" require>
-            <option value="">Selecione um gênero</option>
-            <option value="aventura">Aventura</option>
-            <option value="acao">Ação</option>
-            <option value="romance">Romance</option>
-            <option value="terror">Comédia</option>
-            <option value="terror">Terror</option>
-        </select>
-    </div>
-    <div>
-        <label for="classificacao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Classificação</label>
-        <select name="classificacao" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_classificacao" required>
-            <option value="">Selecione uma Classificação de idade</option>
-            <option value="0">Livre</option>
-            <option value="12">12</option>
-            <option value="16">16</option>
-            <option value="18">18</option>
-        </select>
-    </div>
-    <div class="flex justify-end">
-        <button class="button_cadastrar" id="editar_filme">Editar</button>
-    </div>
-</form>
-
+@if(count($reservas) > 0)
+    <form class="space-y-4 mt-10 queimar_ingresso" action="/ingressos/confirmar" method="POST" id="queimar_ingresso">
+        @csrf
+        <input type="hidden" name="identificador" value="{{ $reservas[0]->identificador }}">
+        <div>
+            <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
+            <input type="text" name="filme" id="filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o titulo do filme" value="{{ $reservas[0]->sessao->movie->titulo }}"  readonly required />
+        </div>
+        <div>
+            <label for="sala" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sala</label>
+            <input type="text" name="sala" id="sala" placeholder="Digite a descrição do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $reservas[0]->sessao->sala->nome }}" readonly required />
+        </div>
+        <div>
+            <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+            <input type="date" name="data" id="edit_data" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $reservas[0]->sessao->data }}" readonly required />
+        </div>
+        <div>
+            <label for="horario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Horário</label>
+            <input type="time" name="horario" id="horario" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $reservas[0]->sessao->horario }}" readonly required />
+        </div>
+        @foreach($reservas as $reserva)
+            <div>
+                <label for="assento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assento</label>
+                <input type="text" name="assento" id="assento" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $reserva->assentos }}" readonly required />
+            </div>
+        @endforeach
+        <div class="flex justify-end mt-5">
+            <button class="button_cadastrar">Validar reserva</button>
+        </div>
+    </form>
+@else
+    <p class="text-center mt-10">Não há reservas disponiveis</p>
+@endif
 
 @endsection

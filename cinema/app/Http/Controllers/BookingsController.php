@@ -38,6 +38,10 @@ class BookingsController extends Controller
 
         $cadastrou = false;
 
+        $maiorIdentificador = Bookings::max('identificador');
+
+        $maiorIdentificador = $maiorIdentificador + 1;
+
         if(count($request->assento) == 0){
             return response()->json([
                 'mensagem' => 'Erro ao registrar o ingresso.',
@@ -69,6 +73,7 @@ class BookingsController extends Controller
                         $ingresso->assentos = $assento;
                         $ingresso->ativo = 1;
                         $ingresso->ocupado = true;
+                        $ingresso->identificador = $maiorIdentificador;
 
                         if($ingresso->save()){
                             $cadastrou = true;
@@ -78,7 +83,6 @@ class BookingsController extends Controller
             }
 
             if($cadastrou){
-
                 $sessao = _sessions::find($ingresso->_sessions_id);
                 $filme = Movie::find($sessao->movies_id);
                 $sala = Room::find($sessao->rooms_id);
@@ -94,6 +98,7 @@ class BookingsController extends Controller
                     'horario' => $sessao->horario,
                     'filme' => $filme->titulo,
                     'assentos' => $request->assento,
+                    'identificador' => $maiorIdentificador
                 ]));
 
                 if($sent){
@@ -182,7 +187,31 @@ class BookingsController extends Controller
         return view('clientes.historico', ['reservas' => $reservas]);
     }
 
-    public function getConfirmar() {
-        return view('ingressos.confirmar_ingresso');
+    public function getConfirmar($id) {
+
+        $user = Auth()->user();
+
+        $reservas = Bookings::where([
+            ['identificador', '=', $id]
+        ])->where([['ativo', '=', 1]])->where([['users_id', '=', $user->id]])->paginate(15);
+
+        return view('ingressos.confirmar_ingresso', ['reservas' => $reservas]);
+    }
+
+    public function confirmar(Request $request){
+
+        $reserva = Bookings::where([['identificador', '=', $request->identificador]])->update(['ativo' => 0]);
+
+        if($reserva){
+            return response()->json([
+                'mensagem' => 'Reserva validada com sucesso!',
+                'erro' => false
+            ]);
+        } else {
+            return response()->json([
+                'mensagem' => 'Erro ao validar a reserva.',
+                'erro' => true
+            ]);
+        }
     }
 }

@@ -20,15 +20,17 @@
             <p>Data de estréia: {{ DateTime::createFromFormat('Y-m-d', $movie->data)->format('d/m/Y') }}</p>
             <p class="descricao">{{ $movie->descricao }}</p>
         </div>
-        <div class="form-ingresso">
-            <form action="/search" method="GET">
-                <div class="pesquisa">
-                    <ion-icon class="search" type="submit" name="search-outline" id="search"></ion-icon>
-                    <input type="text" id="pesquisa" name="pesquisa">
-                    <input type="hidden" name="filme" value="{{ $movie->id }}">
-                </div>
-            </form>
-            @if(count($sessoes) > 0)
+
+        @if(count($sessoes) > 0)
+            <div class="form-ingresso">
+                <form action="/search" method="GET">
+                    <div class="pesquisa">
+                        <ion-icon class="search" type="submit" name="search-outline" id="search"></ion-icon>
+                        <input type="text" id="pesquisa" name="pesquisa">
+                        <input type="hidden" name="filme" value="{{ $movie->id }}">
+                    </div>
+                </form>
+                
                 <form class="space-y-4" action="/adm/filmes" method="POST" id="cadastrar_filme">
                     <div class="tabela esp">
                         <table>
@@ -60,10 +62,10 @@
                         </div>
                     </div>
                 </form>
-            @else
-                <p class="text-center mt-10">Nenhuma sessão foi encontrada</p>
-            @endif
-        </div>
+            </div>
+        @else
+            <p class="text-center mt-10 nn">Nenhuma sessão foi encontrada</p>
+        @endif
     </div>
 
     <!-- Main modal -->
@@ -84,7 +86,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="space-y-4" action="/adm/filmes" method="POST" enctype="multipart/form-data" id="cadastrar_filme">
+            <form class="space-y-4" method="POST">
                 @csrf
                 <div>
                     <p class="text-center mt-10">Tela</p>
@@ -102,7 +104,7 @@
                         <p>Capacidade da sala:</p>
                         <input id="total" type="number" disabled>
                     </div>
-                    <button id="concluir_reserva">Reservar sala</button>
+                    <button id="concluir_registro_reserva">Reservar sala</button>
                 </div>
             </form>
         </div>

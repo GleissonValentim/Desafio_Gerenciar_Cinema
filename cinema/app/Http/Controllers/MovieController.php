@@ -16,6 +16,13 @@ class MovieController extends Controller
         return view('dashboard', ['movies' => $movies]);
     }
 
+    public function perfil() {
+
+        $user = Auth()->user();
+
+        return view('perfil', ['user' => $user]);
+    }
+
     public function home() {
 
         $movies = Movie::all();

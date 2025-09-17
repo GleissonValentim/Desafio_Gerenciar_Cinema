@@ -21,6 +21,7 @@ Route::get('/ingressos/confirmar/{id}', [BookingsController::class, 'getConfirma
 Route::post('/ingressos/email', [BookingsController::class, 'addEmail']);
 Route::post('/ingressos/reservar', [BookingsController::class, 'addIngresso']);
 Route::get('/ingressos/{id}/reservar/{sessao}', [BookingsController::class, 'verificarAssento']);
+Route::post('/adm/sessoes/update', [SessaoController::class, 'update'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/sessoes/{id}/edit', [SessaoController::class, 'edit'])->middleware(CheckIfIsAdmin::class);
 Route::delete('/adm/sessoes/{id}/destroy', [SessaoController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/sessoes', [SessaoController::class, 'addSessao'])->middleware(CheckIfIsAdmin::class);
@@ -37,6 +38,7 @@ Route::get('/adm/filmes/{id}/edit', [MovieController::class, 'edit'])->middlewar
 Route::delete('/adm/filmes/{id}/destroy', [MovieController::class, 'destroy'])->middleware(CheckIfIsAdmin::class);
 Route::post('/adm/filmes', [MovieController::class, 'addFilme'])->middleware(CheckIfIsAdmin::class);
 Route::get('/adm/filmes', [MovieController::class, 'getFilmes'])->name('filmes')->middleware(CheckIfIsAdmin::class);
+Route::get('/perfil', [MovieController::class, 'perfil'])->name('perfil');
 Route::get('/', [MovieController::class, 'home'])->name('home');
 
 Route::middleware([

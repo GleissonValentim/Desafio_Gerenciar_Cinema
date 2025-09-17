@@ -131,8 +131,10 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="/adm/sessoes" method="POST" enctype="multipart/form-data" id="cadastrar_sessao">
+                <form class="space-y-4" method="POST" id="editar_sessao">
                     @csrf
+
+                    <input type="hidden" name="id" id="identificador_sessao">
                     <div>
                         <label for="horario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">horario</label>
                         <input type="time" name="horario" id="edit_horario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
@@ -147,7 +149,7 @@
                     </div>
                     <div>
                         <label for="filme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filme</label>
-                        <select name="filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_movie" required>
+                        <select name="movies_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_movie" required>
                             <option value="">Selecione um Filme</option>
                             @foreach($filmes as $filme)
                                 <option value="{{ $filme->id }}">{{ $filme->titulo }}</option>
@@ -156,7 +158,7 @@
                     </div>
                     <div>
                         <label for="sala" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sala</label>
-                        <select name="sala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_sala_id" required>
+                        <select name="rooms_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" id="edit_sala_id" required>
                             <option value="">Selecione uma Sala</option>
                             @foreach($salas as $sala)
                             <option value="{{ $sala->id }}">{{ $sala->nome }}</option>
@@ -164,7 +166,7 @@
                         </select>
                     </div>
                     <div class="flex justify-end">
-                        <button class="button_cadastrar">Cadastrar</button>
+                        <button class="button_cadastrar">Editar</button>
                     </div>
                 </form>
             </div>
