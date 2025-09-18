@@ -18,9 +18,9 @@ class CheckIfIsAdmin
     {
         if (Auth::user()->isAdm()) {
             return $next($request);
+        } else {
+            // Manda para a rota home
+            return redirect()->route('home');
         }
-
-        // Manda para a rota home
-        return redirect()->route('home');
     }
 }

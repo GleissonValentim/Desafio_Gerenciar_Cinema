@@ -21,6 +21,9 @@
                     <th scope="col">#</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Gênero</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Duração</th>
+                    <th scope="col">Classificação</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
@@ -30,6 +33,9 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td class="link_filme"><a href="/ingressos/reservar_ingresso/{{ $movie->id }}">{{ $movie->titulo }}</a></td>
                         <td>{{ $movie->genero }}</td>
+                        <td>{{ DateTime::createFromFormat('Y-m-d', $movie->data)->format('d/m/Y') }}</td>
+                        <td>{{ $movie->duracao }}m</td>
+                        <td>{{ $movie->classificacao }}</td>
                         <td>
                             <span><ion-icon class="editar atualizar_filme" id="{{ $movie->id }}" data-modal-target="edit-modal" data-modal-toggle="edit-modal" name="create-outline"></ion-icon></span>
                             <span><ion-icon class="delete apagar_filme" id="{{ $movie->id }}" name="trash-outline"></ion-icon></span>
@@ -82,6 +88,10 @@
                     <div>
                         <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
                         <input type="date" name="data" id="descricao" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                    </div>
+                    <div>
+                        <label for="duracao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duração</label>
+                        <input type="number" name="duracao" id="descricao" placeholder="Digite a duração do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
                         <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>
@@ -150,6 +160,10 @@
                     <div>
                         <label for="data" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
                         <input type="date" name="data" id="edit_data" placeholder="Digite a data do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                    </div>
+                    <div>
+                        <label for="duracao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duração</label>
+                        <input type="number" name="duracao" id="edit_duracao" placeholder="Digite a duração do filme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
                         <label for="genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gênero</label>

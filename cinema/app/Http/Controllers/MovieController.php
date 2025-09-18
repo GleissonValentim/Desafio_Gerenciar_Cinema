@@ -46,6 +46,7 @@ class MovieController extends Controller
         $movie->genero = $request->genero;
         $movie->classificacao = $request->classificacao;
         $movie->data = $request->data;
+        $movie->duracao = $request->duracao;
 
         // Image Upload
         if($request->hasFile('image') && $request->file('image')->isValid()) {

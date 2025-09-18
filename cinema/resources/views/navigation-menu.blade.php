@@ -130,7 +130,7 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('perfil') }}" :active="request()->routeIs('perfil')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 

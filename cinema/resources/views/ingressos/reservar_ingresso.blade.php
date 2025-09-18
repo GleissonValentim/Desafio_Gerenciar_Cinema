@@ -18,6 +18,7 @@
             @endif
             <img class="info-image mt-5" src="/img/movies/{{ $movie->image }}" alt="{{ $movie->title }}">
             <p>Data de estréia: {{ DateTime::createFromFormat('Y-m-d', $movie->data)->format('d/m/Y') }}</p>
+            <p>Duração: {{ $movie->duracao }}m</p>
             <p class="descricao">{{ $movie->descricao }}</p>
         </div>
 

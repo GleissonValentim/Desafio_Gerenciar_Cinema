@@ -101,6 +101,7 @@ $(document).ready(function(){
                 $('#edit_data').val(item.data);
                 $('#edit_genero').val(item.genero);
                 $('#edit_classificacao').val(item.classificacao);
+                $('#edit_duracao').val(item.duracao);
             });
         })
     });
@@ -555,6 +556,7 @@ $(document).ready(function(){
     var assentos = []
     var sessao = 0
     $(document).on('click', '.lugar', function(e){
+        e.preventDefault();
         var assento = $(this).attr("id");
         sessao = $(this).attr("name");
         assentoIgual = false
@@ -608,6 +610,7 @@ $(document).ready(function(){
 
     var cadeiras = []
     $(document).on('click', '#concluir_registro_reserva', function(e){
+        e.preventDefault();
         let token = $('meta[name="csrf-token"]').attr('content');
 
         var colunas = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -623,7 +626,7 @@ $(document).ready(function(){
 
         $.ajax({
             url: '/ingressos/reservar',
-            type: 'POST',
+            method: 'POST',
             data:{
                 assento: cadeiras,
                 sala: sessao,
@@ -635,8 +638,10 @@ $(document).ready(function(){
                     title: "Erro",
                     text: data.mensagem,
                     icon: "error"
+                }).then(() => {
+                    cadeiras = null;
+                    location.reload();
                 });
-                cadeiras = null;
             } else {
                 Swal.fire({
                     title: data.mensagem,

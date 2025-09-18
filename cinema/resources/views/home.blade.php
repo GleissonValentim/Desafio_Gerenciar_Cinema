@@ -21,12 +21,21 @@
                 <div class="movie">
                     <img class="img" src="/img/movies/{{ $movie->image }}" alt="{{ $movie->title }}">
 
-                    <!-- <div class="description">
-                        <h1>{{ $movie->titulo }}</h1>
-                        <p>{{ $movie->genero }}</p>
-                        <a href="ingressos/reservar_ingresso/{{ $movie->id }}"><button>Comprar ingresso</button></a>
-                    </div> -->
-                    <h1 class="titulo_filme">{{ $movie->titulo }}</h1>
+                    <div class="description">
+                        <h1 class="titulo_filme">{{ $movie->titulo }}</h1>
+                        <div class="info_filme_description">
+                            @if($movie->classificacao >= 18)
+                            <div class="info_filme"><p class="classificao bg-red-600">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
+                            @elseif($movie->classificacao >= 16)
+                                <div class="info_filme"><p class="classificao especial">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
+                            @elseif($movie->classificacao >= 12)
+                                <div class="info_filme"><p class="classificao bg-yellow-500">{{ $movie->classificacao }}</p><p>{{ $movie->genero }}</p></div>
+                            @elseif($movie->classificacao == 0)
+                                <div class="info_filme"><p class="classificao livre bg-green-600 pb-4">L</p><p>{{ $movie->genero }}</p></div>
+                            @endif
+                            <p>{{ $movie->duracao }}m</p>
+                        </div>
+                    </div>
                 </div>
             </a>
             @endforeach
